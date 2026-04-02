@@ -1,0 +1,330 @@
+{
+  "level": "beginner",
+  "lessons": [
+    {
+      "id": "py_b_01",
+      "title": "Lists Basics",
+      "description": "Create, access, and update list items.",
+      "topicTag": "lists",
+      "xpReward": 25,
+      "codeExample": "nums = [1, 2, 3]\nprint(nums[0])",
+      "questions": [
+        {
+          "id": "py_b_01_q1",
+          "type": "mcq",
+          "questionText": "Which bracket type defines a list?",
+          "codeSnippet": null,
+          "options": ["()", "[]", "{}", "<>"],
+          "blanks": null,
+          "correctAnswer": "[]",
+          "explanation": "Python lists use square brackets.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_01_q2",
+          "type": "fill_blank",
+          "questionText": "Fill to access first element.",
+          "codeSnippet": "items = ['a', 'b']\nprint(items[___])",
+          "options": null,
+          "blanks": ["0", "1", "-1"],
+          "correctAnswer": ["0"],
+          "explanation": "Indexing starts at 0.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_01_q3",
+          "type": "mcq",
+          "questionText": "Which method adds an item at end?",
+          "codeSnippet": null,
+          "options": ["add()", "append()", "push()", "insertEnd()"],
+          "blanks": null,
+          "correctAnswer": "append()",
+          "explanation": "append adds one item to end of list.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_01_q4",
+          "type": "arrange_code",
+          "questionText": "Arrange to add 4 to nums and print.",
+          "codeSnippet": null,
+          "options": null,
+          "blanks": null,
+          "correctAnswer": ["nums = [1, 2, 3]", "nums.append(4)", "print(nums)"],
+          "explanation": "Define list, append, then print.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_01_q5",
+          "type": "mcq",
+          "questionText": "What does len([10, 20, 30]) return?",
+          "codeSnippet": null,
+          "options": ["2", "3", "30", "Error"],
+          "blanks": null,
+          "correctAnswer": "3",
+          "explanation": "len returns item count.",
+          "xpReward": 5
+        }
+      ]
+    },
+    {
+      "id": "py_b_02",
+      "title": "While Loops",
+      "description": "Use while to repeat until condition changes.",
+      "topicTag": "loops",
+      "xpReward": 25,
+      "codeExample": "i = 0\nwhile i < 3:\n    print(i)\n    i += 1",
+      "questions": [
+        {
+          "id": "py_b_02_q1",
+          "type": "mcq",
+          "questionText": "Which keyword starts a while loop?",
+          "codeSnippet": null,
+          "options": ["loop", "while", "repeat", "for"],
+          "blanks": null,
+          "correctAnswer": "while",
+          "explanation": "while repeats while condition is true.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_02_q2",
+          "type": "fill_blank",
+          "questionText": "Fill increment operator line.",
+          "codeSnippet": "i = 0\nwhile i < 5:\n    i ___ 1",
+          "options": null,
+          "blanks": ["+=", "=+", "++"],
+          "correctAnswer": ["+="],
+          "explanation": "Python uses += for increment.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_02_q3",
+          "type": "mcq",
+          "questionText": "What risk exists in while loops?",
+          "codeSnippet": null,
+          "options": ["Memory leak always", "Infinite loop", "Syntax ban", "No output"],
+          "blanks": null,
+          "correctAnswer": "Infinite loop",
+          "explanation": "If condition never becomes false, loop never stops.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_02_q4",
+          "type": "arrange_code",
+          "questionText": "Arrange a valid while loop.",
+          "codeSnippet": null,
+          "options": null,
+          "blanks": null,
+          "correctAnswer": ["count = 0", "while count < 2:", "    print(count)", "    count += 1"],
+          "explanation": "Initialize, condition, body, update.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_02_q5",
+          "type": "mcq",
+          "questionText": "Which statement exits a loop immediately?",
+          "codeSnippet": null,
+          "options": ["stop", "exit", "break", "continue"],
+          "blanks": null,
+          "correctAnswer": "break",
+          "explanation": "break exits the nearest loop.",
+          "xpReward": 5
+        }
+      ]
+    },
+    {
+      "id": "py_b_03",
+      "title": "Functions",
+      "description": "Write reusable logic with def and return.",
+      "topicTag": "functions",
+      "xpReward": 25,
+      "codeExample": "def add(a, b):\n    return a + b",
+      "questions": [
+        {
+          "id": "py_b_03_q1",
+          "type": "mcq",
+          "questionText": "Which keyword defines a function?",
+          "codeSnippet": null,
+          "options": ["func", "def", "function", "lambda"],
+          "blanks": null,
+          "correctAnswer": "def",
+          "explanation": "def starts function definitions.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_03_q2",
+          "type": "fill_blank",
+          "questionText": "Fill the return keyword.",
+          "codeSnippet": "def square(x):\n    ___ x * x",
+          "options": null,
+          "blanks": ["return", "print", "yield"],
+          "correctAnswer": ["return"],
+          "explanation": "return sends value back to caller.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_03_q3",
+          "type": "mcq",
+          "questionText": "How do you call foo with 2?",
+          "codeSnippet": null,
+          "options": ["foo[2]", "foo{2}", "foo(2)", "call foo(2)"],
+          "blanks": null,
+          "correctAnswer": "foo(2)",
+          "explanation": "Use parentheses for function call.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_03_q4",
+          "type": "arrange_code",
+          "questionText": "Arrange function and call.",
+          "codeSnippet": null,
+          "options": null,
+          "blanks": null,
+          "correctAnswer": ["def greet(name):", "    return 'Hi ' + name", "print(greet('Sam'))"],
+          "explanation": "Define first, then invoke.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_03_q5",
+          "type": "mcq",
+          "questionText": "What is a function parameter?",
+          "codeSnippet": null,
+          "options": ["Value returned", "Input variable in definition", "Built-in module", "Loop counter"],
+          "blanks": null,
+          "correctAnswer": "Input variable in definition",
+          "explanation": "Parameters receive arguments.",
+          "xpReward": 5
+        }
+      ]
+    },
+    {
+      "id": "py_b_04",
+      "title": "Dictionaries",
+      "description": "Store key-value pairs and access by key.",
+      "topicTag": "dict",
+      "xpReward": 25,
+      "codeExample": "user = {'name': 'Ana', 'age': 20}\nprint(user['name'])",
+      "questions": [
+        {
+          "id": "py_b_04_q1",
+          "type": "mcq",
+          "questionText": "Which structure holds key-value pairs?",
+          "codeSnippet": null,
+          "options": ["List", "Tuple", "Dictionary", "Set"],
+          "blanks": null,
+          "correctAnswer": "Dictionary",
+          "explanation": "Dictionaries map keys to values.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_04_q2",
+          "type": "fill_blank",
+          "questionText": "Fill dict access key.",
+          "codeSnippet": "user = {'name': 'Ana'}\nprint(user['___'])",
+          "options": null,
+          "blanks": ["name", "Ana", "0"],
+          "correctAnswer": ["name"],
+          "explanation": "Access value via matching key.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_04_q3",
+          "type": "mcq",
+          "questionText": "Which syntax creates an empty dict?",
+          "codeSnippet": null,
+          "options": ["[]", "()", "{}", "<>"],
+          "blanks": null,
+          "correctAnswer": "{}",
+          "explanation": "Curly braces define dict literals.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_04_q4",
+          "type": "arrange_code",
+          "questionText": "Arrange to create and print city value.",
+          "codeSnippet": null,
+          "options": null,
+          "blanks": null,
+          "correctAnswer": ["data = {'city': 'Delhi'}", "print(data['city'])"],
+          "explanation": "Create dict then read value.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_04_q5",
+          "type": "mcq",
+          "questionText": "What does user.get('age', 0) do if key missing?",
+          "codeSnippet": null,
+          "options": ["Crash", "Returns 0", "Returns None only", "Deletes dict"],
+          "blanks": null,
+          "correctAnswer": "Returns 0",
+          "explanation": "Second argument is fallback default.",
+          "xpReward": 5
+        }
+      ]
+    },
+    {
+      "id": "py_b_05",
+      "title": "Strings",
+      "description": "Manipulate text using common string methods.",
+      "topicTag": "strings",
+      "xpReward": 25,
+      "codeExample": "name = 'codequest'\nprint(name.upper())",
+      "questions": [
+        {
+          "id": "py_b_05_q1",
+          "type": "mcq",
+          "questionText": "Which method converts text to uppercase?",
+          "codeSnippet": null,
+          "options": ["upper()", "capitalizeAll()", "up()", "titlecase()"],
+          "blanks": null,
+          "correctAnswer": "upper()",
+          "explanation": "upper() returns uppercase string.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_05_q2",
+          "type": "fill_blank",
+          "questionText": "Fill method to remove spaces around text.",
+          "codeSnippet": "text = ' hi '\nclean = text.___()",
+          "options": null,
+          "blanks": ["strip", "split", "join"],
+          "correctAnswer": ["strip"],
+          "explanation": "strip removes leading/trailing whitespace.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_05_q3",
+          "type": "mcq",
+          "questionText": "What is 'abc'[1]?",
+          "codeSnippet": null,
+          "options": ["a", "b", "c", "Error"],
+          "blanks": null,
+          "correctAnswer": "b",
+          "explanation": "Index 1 is second character.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_05_q4",
+          "type": "arrange_code",
+          "questionText": "Arrange to format greeting string.",
+          "codeSnippet": null,
+          "options": null,
+          "blanks": null,
+          "correctAnswer": ["name = 'Kai'", "msg = f'Hello {name}'", "print(msg)"],
+          "explanation": "Define name, build f-string, print.",
+          "xpReward": 5
+        },
+        {
+          "id": "py_b_05_q5",
+          "type": "mcq",
+          "questionText": "Which joins list words with a space?",
+          "codeSnippet": null,
+          "options": ["' '.join(words)", "words.join(' ')", "join(words)", "concat(words)"],
+          "blanks": null,
+          "correctAnswer": "' '.join(words)",
+          "explanation": "Separator string calls join on iterable.",
+          "xpReward": 5
+        }
+      ]
+    }
+  ]
+}

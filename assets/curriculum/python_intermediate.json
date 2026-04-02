@@ -1,0 +1,330 @@
+{
+  "level": "intermediate",
+  "lessons": [
+    {
+      "id": "py_i_01",
+      "title": "File Handling",
+      "description": "Read and write text files safely.",
+      "topicTag": "files",
+      "xpReward": 30,
+      "codeExample": "with open('notes.txt', 'w') as f:\n    f.write('hello')",
+      "questions": [
+        {
+          "id": "py_i_01_q1",
+          "type": "mcq",
+          "questionText": "Which mode opens a file for writing?",
+          "codeSnippet": null,
+          "options": ["r", "w", "a", "x"],
+          "blanks": null,
+          "correctAnswer": "w",
+          "explanation": "w creates/overwrites file for writing.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_01_q2",
+          "type": "fill_blank",
+          "questionText": "Fill context manager keyword.",
+          "codeSnippet": "___ open('a.txt', 'r') as f:\n    data = f.read()",
+          "options": null,
+          "blanks": ["with", "for", "def"],
+          "correctAnswer": ["with"],
+          "explanation": "with handles automatic file closing.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_01_q3",
+          "type": "mcq",
+          "questionText": "Which method reads all file contents as one string?",
+          "codeSnippet": null,
+          "options": ["read()", "readline()", "lines()", "fetch()"],
+          "blanks": null,
+          "correctAnswer": "read()",
+          "explanation": "read returns full content.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_01_q4",
+          "type": "arrange_code",
+          "questionText": "Arrange to append one line to a file.",
+          "codeSnippet": null,
+          "options": null,
+          "blanks": null,
+          "correctAnswer": ["with open('log.txt', 'a') as f:", "    f.write('done\\n')"],
+          "explanation": "Open in append mode then write.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_01_q5",
+          "type": "mcq",
+          "questionText": "What does 'a' mode do?",
+          "codeSnippet": null,
+          "options": ["Read only", "Append to end", "Delete file", "Binary only"],
+          "blanks": null,
+          "correctAnswer": "Append to end",
+          "explanation": "a writes at end without truncating.",
+          "xpReward": 6
+        }
+      ]
+    },
+    {
+      "id": "py_i_02",
+      "title": "Exceptions",
+      "description": "Handle runtime errors with try/except.",
+      "topicTag": "errors",
+      "xpReward": 30,
+      "codeExample": "try:\n    x = int('a')\nexcept ValueError:\n    print('Invalid number')",
+      "questions": [
+        {
+          "id": "py_i_02_q1",
+          "type": "mcq",
+          "questionText": "Which block catches errors?",
+          "codeSnippet": null,
+          "options": ["catch", "except", "final", "error"],
+          "blanks": null,
+          "correctAnswer": "except",
+          "explanation": "except handles matching exceptions.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_02_q2",
+          "type": "fill_blank",
+          "questionText": "Fill opening keyword for guarded code.",
+          "codeSnippet": "___:\n    n = int(text)",
+          "options": null,
+          "blanks": ["try", "except", "raise"],
+          "correctAnswer": ["try"],
+          "explanation": "try block contains risky code.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_02_q3",
+          "type": "mcq",
+          "questionText": "Which exception occurs for int('x')?",
+          "codeSnippet": null,
+          "options": ["TypeError", "ValueError", "KeyError", "IndexError"],
+          "blanks": null,
+          "correctAnswer": "ValueError",
+          "explanation": "String has invalid literal for int conversion.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_02_q4",
+          "type": "arrange_code",
+          "questionText": "Arrange basic try/except flow.",
+          "codeSnippet": null,
+          "options": null,
+          "blanks": null,
+          "correctAnswer": ["try:", "    result = 10 / 0", "except ZeroDivisionError:", "    print('Cannot divide by zero')"],
+          "explanation": "except follows try block.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_02_q5",
+          "type": "mcq",
+          "questionText": "What does finally do?",
+          "codeSnippet": null,
+          "options": ["Runs only on error", "Runs only on success", "Always runs", "Skips after except"],
+          "blanks": null,
+          "correctAnswer": "Always runs",
+          "explanation": "finally executes regardless of outcome.",
+          "xpReward": 6
+        }
+      ]
+    },
+    {
+      "id": "py_i_03",
+      "title": "Classes and Objects",
+      "description": "Model entities using class syntax.",
+      "topicTag": "oop",
+      "xpReward": 30,
+      "codeExample": "class User:\n    def __init__(self, name):\n        self.name = name",
+      "questions": [
+        {
+          "id": "py_i_03_q1",
+          "type": "mcq",
+          "questionText": "Which keyword defines a class?",
+          "codeSnippet": null,
+          "options": ["object", "class", "def", "struct"],
+          "blanks": null,
+          "correctAnswer": "class",
+          "explanation": "class starts class definitions.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_03_q2",
+          "type": "fill_blank",
+          "questionText": "Fill constructor method name.",
+          "codeSnippet": "class Car:\n    def ___(self):\n        self.speed = 0",
+          "options": null,
+          "blanks": ["__init__", "init", "constructor"],
+          "correctAnswer": ["__init__"],
+          "explanation": "__init__ is Python initializer.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_03_q3",
+          "type": "mcq",
+          "questionText": "What does self represent?",
+          "codeSnippet": null,
+          "options": ["Global object", "Current instance", "Parent class", "Method return"],
+          "blanks": null,
+          "correctAnswer": "Current instance",
+          "explanation": "self refers to the object instance.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_03_q4",
+          "type": "arrange_code",
+          "questionText": "Arrange class creation and object use.",
+          "codeSnippet": null,
+          "options": null,
+          "blanks": null,
+          "correctAnswer": ["class Dog:", "    def __init__(self, name):", "        self.name = name", "d = Dog('Milo')", "print(d.name)"],
+          "explanation": "Define class then instantiate and use.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_03_q5",
+          "type": "mcq",
+          "questionText": "How do you create an instance of User class?",
+          "codeSnippet": null,
+          "options": ["new User()", "User[]", "User()", "create User()"],
+          "blanks": null,
+          "correctAnswer": "User()",
+          "explanation": "Call class name like a function.",
+          "xpReward": 6
+        }
+      ]
+    },
+    {
+      "id": "py_i_04",
+      "title": "Modules",
+      "description": "Import and use standard library modules.",
+      "topicTag": "modules",
+      "xpReward": 30,
+      "codeExample": "import math\nprint(math.sqrt(16))",
+      "questions": [
+        {
+          "id": "py_i_04_q1",
+          "type": "mcq",
+          "questionText": "Which keyword brings in a module?",
+          "codeSnippet": null,
+          "options": ["use", "require", "import", "include"],
+          "blanks": null,
+          "correctAnswer": "import",
+          "explanation": "import loads module namespace.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_04_q2",
+          "type": "fill_blank",
+          "questionText": "Fill module name for random integer generation.",
+          "codeSnippet": "import ___\nprint(random.randint(1, 5))",
+          "options": null,
+          "blanks": ["random", "math", "time"],
+          "correctAnswer": ["random"],
+          "explanation": "randint is from random module.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_04_q3",
+          "type": "mcq",
+          "questionText": "Which call returns square root from math module?",
+          "codeSnippet": null,
+          "options": ["sqrt(9)", "math.root(9)", "math.sqrt(9)", "root.sqrt(9)"],
+          "blanks": null,
+          "correctAnswer": "math.sqrt(9)",
+          "explanation": "Use module-qualified function.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_04_q4",
+          "type": "arrange_code",
+          "questionText": "Arrange import alias usage.",
+          "codeSnippet": null,
+          "options": null,
+          "blanks": null,
+          "correctAnswer": ["import math as m", "value = m.pi", "print(value)"],
+          "explanation": "Alias m then use m.pi.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_04_q5",
+          "type": "mcq",
+          "questionText": "What does from math import pi do?",
+          "codeSnippet": null,
+          "options": ["Imports all modules", "Imports only pi symbol", "Deletes math", "Renames pi"],
+          "blanks": null,
+          "correctAnswer": "Imports only pi symbol",
+          "explanation": "Directly imports named symbol.",
+          "xpReward": 6
+        }
+      ]
+    },
+    {
+      "id": "py_i_05",
+      "title": "List Comprehensions",
+      "description": "Create transformed lists concisely.",
+      "topicTag": "comprehension",
+      "xpReward": 30,
+      "codeExample": "squares = [x * x for x in range(5)]",
+      "questions": [
+        {
+          "id": "py_i_05_q1",
+          "type": "mcq",
+          "questionText": "What does [x*2 for x in [1,2]] produce?",
+          "codeSnippet": null,
+          "options": ["[1,2]", "[2,4]", "[3]", "Error"],
+          "blanks": null,
+          "correctAnswer": "[2,4]",
+          "explanation": "Each element is doubled.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_05_q2",
+          "type": "fill_blank",
+          "questionText": "Fill missing word in comprehension.",
+          "codeSnippet": "evens = [x for x ___ range(6) if x % 2 == 0]",
+          "options": null,
+          "blanks": ["in", "of", "from"],
+          "correctAnswer": ["in"],
+          "explanation": "Comprehensions use for x in iterable.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_05_q3",
+          "type": "mcq",
+          "questionText": "Where does condition go in list comprehension?",
+          "codeSnippet": null,
+          "options": ["Before for", "After iterable", "At start only", "Not allowed"],
+          "blanks": null,
+          "correctAnswer": "After iterable",
+          "explanation": "Expression for x in iterable if condition.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_05_q4",
+          "type": "arrange_code",
+          "questionText": "Arrange comprehension assignment and print.",
+          "codeSnippet": null,
+          "options": null,
+          "blanks": null,
+          "correctAnswer": ["nums = [1, 2, 3]", "doubled = [n * 2 for n in nums]", "print(doubled)"],
+          "explanation": "Create source list, derive new list, print.",
+          "xpReward": 6
+        },
+        {
+          "id": "py_i_05_q5",
+          "type": "mcq",
+          "questionText": "Comprehensions are mainly used for?",
+          "codeSnippet": null,
+          "options": ["Network calls", "Concise list transformation", "File encryption", "Class inheritance"],
+          "blanks": null,
+          "correctAnswer": "Concise list transformation",
+          "explanation": "They build lists from iterables compactly.",
+          "xpReward": 6
+        }
+      ]
+    }
+  ]
+}

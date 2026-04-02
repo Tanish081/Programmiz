@@ -63,6 +63,21 @@
           "correctAnswer": "Append to end",
           "explanation": "a writes at end without truncating.",
           "xpReward": 6
+        },
+        {
+          "id": "py_i_01_q6",
+          "type": "fix_the_bug",
+          "questionText": "Fix the file open call.",
+          "codeSnippet": "with open('notes.txt', w) as f:\n    f.write('ok')",
+          "buggyCode": "with open('notes.txt', w) as f:\n    f.write('ok')",
+          "fixedCode": "with open('notes.txt', 'w') as f:\n    f.write('ok')",
+          "options": ["w", "'w'", "\"w\""],
+          "bugOptions": ["w", "'w'", "\"w\""],
+          "blanks": null,
+          "correctAnswer": "'w'",
+          "bugDescription": "File mode must be a string literal.",
+          "explanation": "open expects the mode as text such as 'w' or 'r'.",
+          "xpReward": 6
         }
       ]
     },

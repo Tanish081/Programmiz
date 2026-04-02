@@ -1,0 +1,619 @@
+{
+  "challenges": [
+    {
+      "id": "dc_001",
+      "day": 1,
+      "title": "Hello Variables",
+      "description": "Pick the correct Python variable assignment.",
+      "type": "mcq",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_001",
+        "type": "mcq",
+        "questionText": "Which line correctly assigns 5 to x in Python?",
+        "options": ["x == 5", "x = 5", "let x = 5", "int x = 5"],
+        "correctAnswer": "x = 5",
+        "explanation": "Python uses = for assignment."
+      },
+      "funFact": "Python was named after Monty Python, not the snake."
+    },
+    {
+      "id": "dc_002",
+      "day": 2,
+      "title": "Print Practice",
+      "description": "Fill in the missing keyword.",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_002",
+        "type": "fill_blank",
+        "questionText": "Complete the code to print hello.",
+        "codeSnippet": "____('hello')",
+        "blanks": ["function name"],
+        "correctAnswer": "print",
+        "explanation": "print() outputs text in Python."
+      },
+      "funFact": "The first computer bug was an actual moth found in a machine."
+    },
+    {
+      "id": "dc_003",
+      "day": 3,
+      "title": "Bug Hunter 1",
+      "description": "Fix a tiny syntax bug.",
+      "type": "fix_the_bug",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_003",
+        "type": "fix_the_bug",
+        "questionText": "Fix the bug in this if statement.",
+        "buggyCode": "if x = 10:\n    print('ten')",
+        "fixedCode": "if x == 10:\n    print('ten')",
+        "bugDescription": "Comparison used assignment operator.",
+        "bugOptions": ["x = 10", "x == 10", "x := 10", "x equals 10"],
+        "options": ["x = 10", "x == 10", "x := 10", "x equals 10"],
+        "correctAnswer": "x == 10",
+        "explanation": "Use == to compare values."
+      },
+      "funFact": "NASA still uses legacy code that predates modern web browsers."
+    },
+    {
+      "id": "dc_004",
+      "day": 4,
+      "title": "List Length",
+      "description": "Choose the right function.",
+      "type": "mcq",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_004",
+        "type": "mcq",
+        "questionText": "How do you get the length of a list named nums?",
+        "options": ["size(nums)", "count(nums)", "len(nums)", "nums.length()"],
+        "correctAnswer": "len(nums)",
+        "explanation": "len() returns the number of elements."
+      },
+      "funFact": "The term byte was coined in 1956 by Werner Buchholz."
+    },
+    {
+      "id": "dc_005",
+      "day": 5,
+      "title": "Loop Starter",
+      "description": "Complete the loop keyword.",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_005",
+        "type": "fill_blank",
+        "questionText": "Fill the blank to start a loop.",
+        "codeSnippet": "____ i in range(3):\n    print(i)",
+        "blanks": ["loop keyword"],
+        "correctAnswer": "for",
+        "explanation": "Python uses for to iterate."
+      },
+      "funFact": "Early programmers often wrote directly in machine code."
+    },
+    {
+      "id": "dc_006",
+      "day": 6,
+      "title": "String Quote Bug",
+      "description": "Fix unclosed string quote.",
+      "type": "fix_the_bug",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_006",
+        "type": "fix_the_bug",
+        "questionText": "Which fix closes the string properly?",
+        "buggyCode": "name = 'Ada\nprint(name)",
+        "fixedCode": "name = 'Ada'\nprint(name)",
+        "bugDescription": "Missing closing single quote.",
+        "bugOptions": ["name = Ada", "name = 'Ada'", "name == 'Ada'", "name = \"Ada\""],
+        "options": ["name = Ada", "name = 'Ada'", "name == 'Ada'", "name = \"Ada\""],
+        "correctAnswer": "name = 'Ada'",
+        "explanation": "Strings must have matching opening and closing quotes."
+      },
+      "funFact": "Ada Lovelace is often credited as the first programmer."
+    },
+    {
+      "id": "dc_007",
+      "day": 7,
+      "title": "Boolean Check",
+      "description": "Pick the boolean value.",
+      "type": "mcq",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_007",
+        "type": "mcq",
+        "questionText": "Which is the correct Python boolean literal?",
+        "options": ["true", "TRUE", "True", "bool"],
+        "correctAnswer": "True",
+        "explanation": "Python booleans are capitalized: True and False."
+      },
+      "funFact": "CAPTCHA was first used commercially in the early 2000s."
+    },
+    {
+      "id": "dc_008",
+      "day": 8,
+      "title": "Function Name",
+      "description": "Complete function definition syntax.",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_008",
+        "type": "fill_blank",
+        "questionText": "Fill the keyword to define a function.",
+        "codeSnippet": "____ greet():\n    return 'hi'",
+        "blanks": ["keyword"],
+        "correctAnswer": "def",
+        "explanation": "Functions are declared with def in Python."
+      },
+      "funFact": "Open-source projects power most of the modern internet."
+    },
+    {
+      "id": "dc_009",
+      "day": 9,
+      "title": "Bracket Bug",
+      "description": "Fix a list syntax issue.",
+      "type": "fix_the_bug",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_009",
+        "type": "fix_the_bug",
+        "questionText": "Choose the corrected list declaration.",
+        "buggyCode": "nums = [1, 2, 3\nprint(nums)",
+        "fixedCode": "nums = [1, 2, 3]\nprint(nums)",
+        "bugDescription": "Missing closing square bracket.",
+        "bugOptions": ["nums = [1,2,3]", "nums = (1,2,3)", "nums = {1,2,3}", "nums = 1,2,3"],
+        "options": ["nums = [1,2,3]", "nums = (1,2,3)", "nums = {1,2,3}", "nums = 1,2,3"],
+        "correctAnswer": "nums = [1,2,3]",
+        "explanation": "Lists use square brackets in Python."
+      },
+      "funFact": "Git was created by Linus Torvalds in 2005."
+    },
+    {
+      "id": "dc_010",
+      "day": 10,
+      "title": "Input Basics",
+      "description": "Find the right function for user text.",
+      "type": "mcq",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_010",
+        "type": "mcq",
+        "questionText": "Which function reads input from the user?",
+        "options": ["scan()", "input()", "read()", "ask()"],
+        "correctAnswer": "input()",
+        "explanation": "input() reads a line from standard input."
+      },
+      "funFact": "Many terminal commands are older than graphical interfaces."
+    },
+    {
+      "id": "dc_011",
+      "day": 11,
+      "title": "Range Stop",
+      "description": "Understand range upper bound.",
+      "type": "mcq",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_011",
+        "type": "mcq",
+        "questionText": "What does range(3) generate?",
+        "options": ["1,2,3", "0,1,2", "0,1,2,3", "3 only"],
+        "correctAnswer": "0,1,2",
+        "explanation": "range(n) starts at 0 and excludes n."
+      },
+      "funFact": "Compilers can optimize code better than many humans by hand."
+    },
+    {
+      "id": "dc_012",
+      "day": 12,
+      "title": "Append Call",
+      "description": "Complete list method usage.",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_012",
+        "type": "fill_blank",
+        "questionText": "Fill method to add one item to list a.",
+        "codeSnippet": "a.____(5)",
+        "blanks": ["method"],
+        "correctAnswer": "append",
+        "explanation": "append adds one element to the list end."
+      },
+      "funFact": "The first domain name ever registered was symbolics.com."
+    },
+    {
+      "id": "dc_013",
+      "day": 13,
+      "title": "Indentation Bug",
+      "description": "Fix block indentation.",
+      "type": "fix_the_bug",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_013",
+        "type": "fix_the_bug",
+        "questionText": "Select the properly indented print line.",
+        "buggyCode": "if True:\nprint('ok')",
+        "fixedCode": "if True:\n    print('ok')",
+        "bugDescription": "Missing indentation inside if block.",
+        "bugOptions": ["print('ok')", "    print('ok')", "\t\tprint('ok')", "end"],
+        "options": ["print('ok')", "    print('ok')", "\t\tprint('ok')", "end"],
+        "correctAnswer": "    print('ok')",
+        "explanation": "Python blocks must be indented consistently."
+      },
+      "funFact": "Whitespace is syntax in Python, unlike many other languages."
+    },
+    {
+      "id": "dc_014",
+      "day": 14,
+      "title": "Type Cast",
+      "description": "Convert string to integer.",
+      "type": "mcq",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_014",
+        "type": "mcq",
+        "questionText": "How do you convert '42' to int?",
+        "options": ["number('42')", "toInt('42')", "int('42')", "cast('42')"],
+        "correctAnswer": "int('42')",
+        "explanation": "int() converts numeric strings to integers."
+      },
+      "funFact": "Unicode lets computers represent text from almost every writing system."
+    },
+    {
+      "id": "dc_015",
+      "day": 15,
+      "title": "String Upper",
+      "description": "Fill the method name.",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "xpReward": 20,
+      "bonusXP": 10,
+      "questionData": {
+        "id": "q_dc_015",
+        "type": "fill_blank",
+        "questionText": "Complete method to uppercase a string s.",
+        "codeSnippet": "s.____()",
+        "blanks": ["method"],
+        "correctAnswer": "upper",
+        "explanation": "upper() returns uppercase version of a string."
+      },
+      "funFact": "ASCII originally used 7 bits, not 8."
+    },
+    {
+      "id": "dc_016",
+      "day": 16,
+      "title": "Dictionary Access",
+      "description": "Select correct key access.",
+      "type": "mcq",
+      "difficulty": "medium",
+      "xpReward": 30,
+      "bonusXP": 15,
+      "questionData": {
+        "id": "q_dc_016",
+        "type": "mcq",
+        "questionText": "How do you access key 'age' in dict user?",
+        "options": ["user.age", "user('age')", "user['age']", "user->age"],
+        "correctAnswer": "user['age']",
+        "explanation": "Use square bracket indexing for dict keys."
+      },
+      "funFact": "Hash maps provide average O(1) lookup time."
+    },
+    {
+      "id": "dc_017",
+      "day": 17,
+      "title": "Else Colon Bug",
+      "description": "Fix missing colon.",
+      "type": "fix_the_bug",
+      "difficulty": "medium",
+      "xpReward": 30,
+      "bonusXP": 15,
+      "questionData": {
+        "id": "q_dc_017",
+        "type": "fix_the_bug",
+        "questionText": "Which line fixes the else statement?",
+        "buggyCode": "if n > 0:\n    print('pos')\nelse\n    print('non-pos')",
+        "fixedCode": "if n > 0:\n    print('pos')\nelse:\n    print('non-pos')",
+        "bugDescription": "else statement needs a colon.",
+        "bugOptions": ["else", "else:", "elif:", "otherwise:"],
+        "options": ["else", "else:", "elif:", "otherwise:"],
+        "correctAnswer": "else:",
+        "explanation": "Control flow blocks require a colon at the end."
+      },
+      "funFact": "A single missing character causes many syntax errors."
+    },
+    {
+      "id": "dc_018",
+      "day": 18,
+      "title": "Join Method",
+      "description": "Complete list-to-string expression.",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "xpReward": 30,
+      "bonusXP": 15,
+      "questionData": {
+        "id": "q_dc_018",
+        "type": "fill_blank",
+        "questionText": "Fill the separator in a join call.",
+        "codeSnippet": "'-'.____(['a', 'b', 'c'])",
+        "blanks": ["method"],
+        "correctAnswer": "join",
+        "explanation": "join() combines iterable strings with a separator."
+      },
+      "funFact": "Functional programming concepts are popular in modern languages."
+    },
+    {
+      "id": "dc_019",
+      "day": 19,
+      "title": "While Condition",
+      "description": "Choose the proper loop condition.",
+      "type": "mcq",
+      "difficulty": "medium",
+      "xpReward": 30,
+      "bonusXP": 15,
+      "questionData": {
+        "id": "q_dc_019",
+        "type": "mcq",
+        "questionText": "Which while loop runs until i reaches 5?",
+        "options": ["while i <= 5", "while i < 5", "while i = 5", "while i"],
+        "correctAnswer": "while i < 5",
+        "explanation": "Use i < 5 for 0 to 4 style loops."
+      },
+      "funFact": "Infinite loops are useful in event-driven systems when controlled."
+    },
+    {
+      "id": "dc_020",
+      "day": 20,
+      "title": "Return Bug",
+      "description": "Fix function result logic.",
+      "type": "fix_the_bug",
+      "difficulty": "medium",
+      "xpReward": 30,
+      "bonusXP": 15,
+      "questionData": {
+        "id": "q_dc_020",
+        "type": "fix_the_bug",
+        "questionText": "Pick the corrected return statement.",
+        "buggyCode": "def add(a, b):\n    print(a + b)",
+        "fixedCode": "def add(a, b):\n    return a + b",
+        "bugDescription": "Function prints instead of returning value.",
+        "bugOptions": ["print(a + b)", "return a + b", "yield a + b", "a + b"],
+        "options": ["print(a + b)", "return a + b", "yield a + b", "a + b"],
+        "correctAnswer": "return a + b",
+        "explanation": "Use return when a function should provide a value."
+      },
+      "funFact": "Pure functions are easier to test and reason about."
+    },
+    {
+      "id": "dc_021",
+      "day": 21,
+      "title": "Enumerate Use",
+      "description": "Find best loop pattern.",
+      "type": "mcq",
+      "difficulty": "medium",
+      "xpReward": 30,
+      "bonusXP": 15,
+      "questionData": {
+        "id": "q_dc_021",
+        "type": "mcq",
+        "questionText": "Which gives both index and value in a loop?",
+        "options": ["range(list)", "enumerate(list)", "zip(list)", "items(list)"],
+        "correctAnswer": "enumerate(list)",
+        "explanation": "enumerate pairs each item with its index."
+      },
+      "funFact": "Good naming beats clever code in most code reviews."
+    },
+    {
+      "id": "dc_022",
+      "day": 22,
+      "title": "Exception Keyword",
+      "description": "Complete try/except block.",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "xpReward": 30,
+      "bonusXP": 15,
+      "questionData": {
+        "id": "q_dc_022",
+        "type": "fill_blank",
+        "questionText": "Fill the keyword to handle exceptions.",
+        "codeSnippet": "try:\n    x = 1/0\n____ ZeroDivisionError:\n    x = 0",
+        "blanks": ["keyword"],
+        "correctAnswer": "except",
+        "explanation": "except catches matching runtime exceptions."
+      },
+      "funFact": "Structured error handling improves resilience."
+    },
+    {
+      "id": "dc_023",
+      "day": 23,
+      "title": "Tuple Bug",
+      "description": "Fix tuple syntax.",
+      "type": "fix_the_bug",
+      "difficulty": "medium",
+      "xpReward": 30,
+      "bonusXP": 15,
+      "questionData": {
+        "id": "q_dc_023",
+        "type": "fix_the_bug",
+        "questionText": "Fix single-item tuple declaration.",
+        "buggyCode": "coords = (5)",
+        "fixedCode": "coords = (5,)",
+        "bugDescription": "Single-item tuple needs a trailing comma.",
+        "bugOptions": ["(5)", "(5,)", "[5]", "{5}"],
+        "options": ["(5)", "(5,)", "[5]", "{5}"],
+        "correctAnswer": "(5,)",
+        "explanation": "Without comma, (5) is just an int expression."
+      },
+      "funFact": "Tiny punctuation marks can alter data types completely."
+    },
+    {
+      "id": "dc_024",
+      "day": 24,
+      "title": "List Comprehension",
+      "description": "Identify valid syntax.",
+      "type": "mcq",
+      "difficulty": "medium",
+      "xpReward": 30,
+      "bonusXP": 15,
+      "questionData": {
+        "id": "q_dc_024",
+        "type": "mcq",
+        "questionText": "Which creates squares from nums?",
+        "options": ["[n*n for n in nums]", "for n in nums: n*n", "nums.map(n*n)", "square(nums)"],
+        "correctAnswer": "[n*n for n in nums]",
+        "explanation": "That is correct Python list comprehension syntax."
+      },
+      "funFact": "Comprehensions can be both concise and performant."
+    },
+    {
+      "id": "dc_025",
+      "day": 25,
+      "title": "Keyword-Only Hint",
+      "description": "Fill parameter marker.",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "xpReward": 30,
+      "bonusXP": 15,
+      "questionData": {
+        "id": "q_dc_025",
+        "type": "fill_blank",
+        "questionText": "Fill the marker enabling keyword-only params after it.",
+        "codeSnippet": "def f(a, ____, b):\n    return a + b",
+        "blanks": ["marker"],
+        "correctAnswer": "*",
+        "explanation": "Arguments after * are keyword-only parameters."
+      },
+      "funFact": "API design often depends on parameter clarity and intent."
+    },
+    {
+      "id": "dc_026",
+      "day": 26,
+      "title": "Mutable Default Bug",
+      "description": "Fix risky default argument.",
+      "type": "fix_the_bug",
+      "difficulty": "hard",
+      "xpReward": 40,
+      "bonusXP": 20,
+      "questionData": {
+        "id": "q_dc_026",
+        "type": "fix_the_bug",
+        "questionText": "Choose the safer default-arg pattern.",
+        "buggyCode": "def add_item(item, bucket=[]):\n    bucket.append(item)\n    return bucket",
+        "fixedCode": "def add_item(item, bucket=None):\n    bucket = [] if bucket is None else bucket\n    bucket.append(item)\n    return bucket",
+        "bugDescription": "Mutable default list persists across calls.",
+        "bugOptions": ["bucket=[]", "bucket=None", "bucket=list()", "bucket={}"],
+        "options": ["bucket=[]", "bucket=None", "bucket=list()", "bucket={}"],
+        "correctAnswer": "bucket=None",
+        "explanation": "Use None then create a fresh list inside function."
+      },
+      "funFact": "Many subtle bugs come from shared mutable state."
+    },
+    {
+      "id": "dc_027",
+      "day": 27,
+      "title": "Generator Expression",
+      "description": "Find lazy evaluation form.",
+      "type": "mcq",
+      "difficulty": "hard",
+      "xpReward": 40,
+      "bonusXP": 20,
+      "questionData": {
+        "id": "q_dc_027",
+        "type": "mcq",
+        "questionText": "Which expression is a generator?",
+        "options": ["[x*x for x in nums]", "(x*x for x in nums)", "{x*x for x in nums}", "x*x for x in nums"],
+        "correctAnswer": "(x*x for x in nums)",
+        "explanation": "Parenthesized comprehension creates a generator."
+      },
+      "funFact": "Generators help process large datasets with less memory."
+    },
+    {
+      "id": "dc_028",
+      "day": 28,
+      "title": "Context Manager Blank",
+      "description": "Complete file handling syntax.",
+      "type": "fill_blank",
+      "difficulty": "hard",
+      "xpReward": 40,
+      "bonusXP": 20,
+      "questionData": {
+        "id": "q_dc_028",
+        "type": "fill_blank",
+        "questionText": "Fill keyword for context-managed file open.",
+        "codeSnippet": "____ open('a.txt') as f:\n    data = f.read()",
+        "blanks": ["keyword"],
+        "correctAnswer": "with",
+        "explanation": "with ensures the file is closed automatically."
+      },
+      "funFact": "Context managers reduce resource leaks."
+    },
+    {
+      "id": "dc_029",
+      "day": 29,
+      "title": "Shadowing Bug",
+      "description": "Fix accidental builtin shadowing.",
+      "type": "fix_the_bug",
+      "difficulty": "hard",
+      "xpReward": 40,
+      "bonusXP": 20,
+      "questionData": {
+        "id": "q_dc_029",
+        "type": "fix_the_bug",
+        "questionText": "Pick the best variable rename.",
+        "buggyCode": "list = [1,2,3]\nprint(list('abc'))",
+        "fixedCode": "values = [1,2,3]\nprint(list('abc'))",
+        "bugDescription": "Variable shadows built-in list function.",
+        "bugOptions": ["list = [1,2,3]", "values = [1,2,3]", "List = [1,2,3]", "builtin = [1,2,3]"],
+        "options": ["list = [1,2,3]", "values = [1,2,3]", "List = [1,2,3]", "builtin = [1,2,3]"],
+        "correctAnswer": "values = [1,2,3]",
+        "explanation": "Avoid naming variables after built-in functions."
+      },
+      "funFact": "Shadowing builtins can cause confusing runtime errors."
+    },
+    {
+      "id": "dc_030",
+      "day": 30,
+      "title": "Async Keyword",
+      "description": "Identify async function declaration.",
+      "type": "mcq",
+      "difficulty": "hard",
+      "xpReward": 40,
+      "bonusXP": 20,
+      "questionData": {
+        "id": "q_dc_030",
+        "type": "mcq",
+        "questionText": "Which line declares an async function in Python?",
+        "options": ["def async task():", "async def task():", "def task() async:", "await def task():"],
+        "correctAnswer": "async def task():",
+        "explanation": "Use async def for coroutine function definitions."
+      },
+      "funFact": "Async IO helps servers scale with many concurrent tasks."
+    }
+  ]
+}

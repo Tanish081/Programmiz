@@ -112,15 +112,19 @@ class QuizNotifier extends StateNotifier<QuizState> {
         correctCount: state.correctCount + 1,
         submittedAnswer: answer,
       );
+      if (q.type == 'fix_the_bug') {
+        unawaited(_ref.read(preferencesServiceProvider).incrementFixTheBugCompleted());
+      }
       return;
     }
 
     if (!state.freeRetryUsed) {
+      final hint = q.type == 'fix_the_bug' ? (q.bugDescription ?? q.explanation) : q.explanation;
       state = state.copyWith(
         freeRetryUsed: true,
         hasAnswered: false,
         wasCorrect: false,
-        explanation: 'Hint: ${q.explanation}',
+        explanation: 'Hint: $hint',
         submittedAnswer: answer,
       );
       return;

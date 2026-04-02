@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
       name: AppStrings.python,
       emoji: '🐍',
       logoUrl: 'assets/logos/python.svg',
-      description: 'Learn Python basics',
+      description: 'Start with the fundamentals',
       lessonsCompleted: 12,
       totalLessons: 50,
       xpEarned: 3240,

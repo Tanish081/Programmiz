@@ -19,6 +19,20 @@ class PreferencesService {
   static const String keyTodayXPDate = 'todayXPDate';
   static const String keyLastLivesResetDate = 'lastLivesResetDate';
   static const String keyLongestStreak = 'longestStreak';
+  static const String keyLastFunFactIndex = 'lastFunFactIndex';
+  static const String keyChallengesCompleted = 'challengesCompleted';
+  static const String keyUnlockedAchievements = 'unlockedAchievements';
+  static const String keyLastMascotMessage = 'lastMascotMessage';
+  static const String keyAppLaunchDate = 'appLaunchDate';
+  static const String keyFixTheBugCompleted = 'fixTheBugCompleted';
+
+  String _todayActivityKey() {
+    return 'activity_${AppDateUtils.todayIsoDate()}';
+  }
+
+  String _challengeDayKey(String date) {
+    return 'challenge_done_$date';
+  }
 
   Future<int> getXP() async {
     final prefs = await SharedPreferences.getInstance();
@@ -32,6 +46,8 @@ class PreferencesService {
     final today = prefs.getInt(keyTodayXP) ?? 0;
     await prefs.setInt(keyTotalXP, current + amount);
     await prefs.setInt(keyTodayXP, today + amount);
+    final todayActivity = prefs.getInt(_todayActivityKey()) ?? 0;
+    await prefs.setInt(_todayActivityKey(), todayActivity + amount);
   }
 
   Future<int> getStreak() async {
@@ -81,6 +97,14 @@ class PreferencesService {
   Future<void> setLongestStreak(int value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(keyLongestStreak, value);
+  }
+
+  Future<void> updateLongestStreak(int streak) async {
+    final prefs = await SharedPreferences.getInstance();
+    final current = prefs.getInt(keyLongestStreak) ?? 0;
+    if (streak > current) {
+      await prefs.setInt(keyLongestStreak, streak);
+    }
   }
 
   Future<int> getLives() async {
@@ -179,6 +203,17 @@ class PreferencesService {
     return prefs.getInt(keyTodayXP) ?? 0;
   }
 
+  Future<int> getXPEarnedToday() async {
+    return getTodayXP();
+  }
+
+  Future<void> addXPToday(int amount) async {
+    final prefs = await SharedPreferences.getInstance();
+    await _resetTodayXpIfNeeded(prefs);
+    final today = prefs.getInt(keyTodayXP) ?? 0;
+    await prefs.setInt(keyTodayXP, today + amount);
+  }
+
   Future<void> _resetTodayXpIfNeeded(SharedPreferences prefs) async {
     final today = AppDateUtils.todayIsoDate();
     final storedDate = prefs.getString(keyTodayXPDate);
@@ -187,5 +222,104 @@ class PreferencesService {
     }
     await prefs.setInt(keyTodayXP, 0);
     await prefs.setString(keyTodayXPDate, today);
+  }
+
+  Future<int?> getLastFunFactIndex() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(keyLastFunFactIndex);
+  }
+
+  Future<void> setLastFunFactIndex(int index) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(keyLastFunFactIndex, index);
+  }
+
+  Future<void> unlockAchievement(String achievementId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final current = prefs.getStringList(keyUnlockedAchievements) ?? <String>[];
+    if (!current.contains(achievementId)) {
+      current.add(achievementId);
+      await prefs.setStringList(keyUnlockedAchievements, current);
+    }
+  }
+
+  Future<List<String>> getUnlockedAchievements() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(keyUnlockedAchievements) ?? <String>[];
+  }
+
+  Future<void> addDailyActivity(int xp) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = _todayActivityKey();
+    final current = prefs.getInt(key) ?? 0;
+    await prefs.setInt(key, current + xp);
+  }
+
+  Future<Map<String, int>> getYearlyActivity() async {
+    final prefs = await SharedPreferences.getInstance();
+    final now = AppDateUtils.todayLocalDate();
+    final output = <String, int>{};
+
+    for (var i = 0; i < 365; i++) {
+      final date = now.subtract(Duration(days: i));
+      final key = 'activity_${date.toIso8601String().split('T').first}';
+      final value = prefs.getInt(key);
+      if (value != null) {
+        output[key.replaceFirst('activity_', '')] = value;
+      }
+    }
+
+    return output;
+  }
+
+  Future<void> markChallengeComplete(String date, int xp) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_challengeDayKey(date), true);
+    final completed = prefs.getInt(keyChallengesCompleted) ?? 0;
+    await prefs.setInt(keyChallengesCompleted, completed + 1);
+    await addXP(xp);
+  }
+
+  Future<bool> isChallengeCompleteToday() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_challengeDayKey(AppDateUtils.todayIsoDate())) ?? false;
+  }
+
+  Future<int> getChallengesCompleted() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(keyChallengesCompleted) ?? 0;
+  }
+
+  Future<String> getLastMascotMessage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(keyLastMascotMessage) ?? '';
+  }
+
+  Future<void> saveLastMascotMessage(String msg) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(keyLastMascotMessage, msg);
+  }
+
+  Future<DateTime> getOrCreateAppLaunchDate() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString(keyAppLaunchDate);
+    if (raw != null) {
+      return DateTime.parse(raw);
+    }
+
+    final now = DateTime.now();
+    await prefs.setString(keyAppLaunchDate, now.toIso8601String());
+    return now;
+  }
+
+  Future<void> incrementFixTheBugCompleted() async {
+    final prefs = await SharedPreferences.getInstance();
+    final current = prefs.getInt(keyFixTheBugCompleted) ?? 0;
+    await prefs.setInt(keyFixTheBugCompleted, current + 1);
+  }
+
+  Future<int> getFixTheBugCompleted() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(keyFixTheBugCompleted) ?? 0;
   }
 }

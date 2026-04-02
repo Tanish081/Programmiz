@@ -63,6 +63,21 @@
           "correctAnswer": "Both single and double",
           "explanation": "Python accepts both single and double quotes.",
           "xpReward": 5
+        },
+        {
+          "id": "py_ab_01_q6",
+          "type": "fix_the_bug",
+          "questionText": "Fix the comparison bug in the condition.",
+          "codeSnippet": "if score = 10:\n    print('Perfect')",
+          "buggyCode": "if score = 10:\n    print('Perfect')",
+          "fixedCode": "if score == 10:\n    print('Perfect')",
+          "options": ["score = 10", "score == 10", "score := 10"],
+          "bugOptions": ["score = 10", "score == 10", "score := 10"],
+          "blanks": null,
+          "correctAnswer": "score == 10",
+          "bugDescription": "Use == when comparing values.",
+          "explanation": "Single = assigns a value, while == compares values.",
+          "xpReward": 5
         }
       ]
     },

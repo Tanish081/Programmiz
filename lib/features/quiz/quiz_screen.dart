@@ -7,7 +7,9 @@ import 'package:programming_learn_app/core/providers/app_providers.dart';
 import 'package:programming_learn_app/features/quiz/quiz_provider.dart';
 import 'package:programming_learn_app/features/quiz/widgets/arrange_code_widget.dart';
 import 'package:programming_learn_app/features/quiz/widgets/fill_blank_widget.dart';
+import 'package:programming_learn_app/features/quiz/widgets/fix_the_bug_widget.dart';
 import 'package:programming_learn_app/features/quiz/widgets/mcq_widget.dart';
+import 'package:programming_learn_app/ui/components/mascot_widget.dart';
 
 class QuizScreen extends ConsumerStatefulWidget {
   const QuizScreen({super.key, required this.lessonId});
@@ -138,6 +140,8 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
 
     final q = state.currentQuestion!;
     final progress = ((state.currentIndex + 1) / state.totalQuestions).clamp(0, 1).toDouble();
+    final scorePercent = state.totalQuestions == 0 ? 0 : ((state.correctCount / state.totalQuestions) * 100).round();
+    final mascotMessage = ref.read(mascotServiceProvider).getPerformanceMessage(scorePercent);
 
     return Scaffold(
       appBar: AppBar(
@@ -183,6 +187,10 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
               }),
             ),
             const SizedBox(height: 16),
+            Center(
+              child: MascotWidget(message: mascotMessage, size: 48),
+            ),
+            const SizedBox(height: 10),
             Expanded(
               child: SingleChildScrollView(
                 child: _buildQuestion(q, state),
@@ -267,6 +275,22 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         blanks: q.blanks ?? const <String>[],
         expectedBlanks: expectedCount,
         hasAnswered: state.hasAnswered,
+        onSubmit: (value) => ref.read(quizProvider.notifier).answer(value),
+      );
+    }
+
+    if (q.type == 'fix_the_bug') {
+      return FixTheBugWidget(
+        question: q.questionText,
+        level: state.lesson?.level ?? 'absolute_beginner',
+        buggyCode: q.buggyCode ?? q.codeSnippet ?? '',
+        fixedCode: q.fixedCode,
+        bugDescription: q.bugDescription,
+        bugOptions: q.bugOptions ?? q.options ?? const <String>[],
+        correctAnswer: q.correctAnswer.toString(),
+        hasAnswered: state.hasAnswered,
+        wasCorrect: state.wasCorrect,
+        selectedAnswer: state.submittedAnswer?.toString(),
         onSubmit: (value) => ref.read(quizProvider.notifier).answer(value),
       );
     }

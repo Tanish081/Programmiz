@@ -1,8 +1,12 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:programming_learn_app/core/constants/app_colors.dart';
 import 'package:programming_learn_app/core/providers/app_providers.dart';
+import 'package:programming_learn_app/data/services/mascot_service.dart';
 import 'package:programming_learn_app/features/home/home_provider.dart';
 import 'package:programming_learn_app/features/home/widgets/lesson_card.dart';
 import 'package:programming_learn_app/features/language_hub/language_hub_provider.dart';
@@ -10,6 +14,7 @@ import 'package:programming_learn_app/ui/components/duo_bottom_banner.dart';
 import 'package:programming_learn_app/ui/components/duo_button.dart';
 import 'package:programming_learn_app/ui/components/duo_progress_bar.dart';
 import 'package:programming_learn_app/ui/components/language_card.dart';
+import 'package:programming_learn_app/ui/components/mascot_widget.dart';
 
 class LanguageHubScreen extends ConsumerStatefulWidget {
   const LanguageHubScreen({super.key, this.languageId});
@@ -21,6 +26,48 @@ class LanguageHubScreen extends ConsumerStatefulWidget {
 }
 
 class _LanguageHubScreenState extends ConsumerState<LanguageHubScreen> {
+  MascotMessage _mascotMessage = const MascotMessage(
+    emoji: '🤖',
+    message: 'Let\'s ship one tiny win today.',
+    state: MascotState.encouraging,
+  );
+
+  DateTime? _lastBackPressTime;
+  Timer? _backPressTimer;
+  bool _canExit = false;
+
+  String _avatarEmoji(String? avatarId) {
+    switch (avatarId) {
+      case 'avatar_1':
+        return '🦊';
+      case 'avatar_2':
+        return '🐼';
+      case 'avatar_3':
+        return '🦁';
+      case 'avatar_4':
+        return '🐸';
+      case 'avatar_5':
+        return '🐧';
+      case 'avatar_6':
+        return '🤖';
+      default:
+        return '👩‍💻';
+    }
+  }
+
+  Future<void> _loadMascotMessage() async {
+    final prefs = ref.read(preferencesServiceProvider);
+    final mascot = ref.read(mascotServiceProvider);
+    final profile = await prefs.loadUserProfile();
+    final streak = await prefs.getStreak();
+    final message = mascot.getStreakMessage(streak, name: profile?.name);
+    await prefs.saveLastMascotMessage(message.message);
+    if (!mounted) return;
+    setState(() {
+      _mascotMessage = message;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -28,13 +75,42 @@ class _LanguageHubScreenState extends ConsumerState<LanguageHubScreen> {
       ref.read(homeProvider.notifier).load();
       ref.read(languageHubProvider.notifier).load();
       ref.read(audioServiceProvider).startBackground();
+      _loadMascotMessage();
     });
   }
 
   @override
   void dispose() {
     ref.read(audioServiceProvider).stopBackground();
+    _backPressTimer?.cancel();
     super.dispose();
+  }
+
+  void _handleBackPress() {
+    final now = DateTime.now();
+    const Duration exitDuration = Duration(seconds: 2);
+
+    if (_lastBackPressTime == null || now.difference(_lastBackPressTime!) > exitDuration) {
+      // First tap or timeout expired
+      _lastBackPressTime = now;
+      _canExit = false;
+      _backPressTimer?.cancel();
+      _backPressTimer = Timer(exitDuration, () {
+        _lastBackPressTime = null;
+        _canExit = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Press back again to exit'),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } else {
+      // Second tap within 2 seconds - exit app
+      exit(0);
+    }
   }
 
   @override
@@ -50,11 +126,26 @@ class _LanguageHubScreenState extends ConsumerState<LanguageHubScreen> {
       return _languageDetail(context, home, widget.languageId!);
     }
 
-    return Scaffold(
+    return PopScope(
+      canPop: _canExit,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          _handleBackPress();
+        }
+      },
+      child: Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('Language hub'),
         actions: [
+          IconButton(
+            onPressed: () => context.go('/profile'),
+            icon: CircleAvatar(
+              radius: 14,
+              backgroundColor: Colors.white,
+              child: Text(_avatarEmoji(home.profile?.avatarId), style: const TextStyle(fontSize: 16)),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: Center(
@@ -71,11 +162,23 @@ class _LanguageHubScreenState extends ConsumerState<LanguageHubScreen> {
             _HeroCard(name: hub.userName, streak: hub.streak, dailyGoalXP: hub.dailyGoalXP, todayXP: hub.todayXP),
             const SizedBox(height: 18),
             DuoBottomBanner(
-              title: 'Placement ready',
-              subtitle: 'Your recommended path is ${_levelLabel(hub.placementLevel)}. Python is open and the other tracks are on the way.',
+              title: 'Your learning path is ready',
+              subtitle: 'Your recommended starting point is ${_levelLabel(hub.placementLevel)}. Pick a track and keep moving at your own pace.',
               icon: const Icon(Icons.school_rounded, color: AppColors.primary),
-              actionLabel: 'View Python',
+              actionLabel: 'Open track',
               onAction: () => context.go('/language/python'),
+            ),
+            const SizedBox(height: 18),
+            DuoBottomBanner(
+              title: 'Daily challenge is live',
+              subtitle: 'One short challenge, bonus XP in the first 30 seconds.',
+              icon: const Icon(Icons.timer_rounded, color: AppColors.primary),
+              actionLabel: 'Play now',
+              onAction: () => context.go('/daily-challenge'),
+            ),
+            const SizedBox(height: 18),
+            MascotWidget(
+              message: _mascotMessage,
             ),
             const SizedBox(height: 18),
             const Text('Choose a language', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
@@ -120,6 +223,7 @@ class _LanguageHubScreenState extends ConsumerState<LanguageHubScreen> {
           ],
         ),
       ),
+      ),
     );
   }
 
@@ -131,7 +235,7 @@ class _LanguageHubScreenState extends ConsumerState<LanguageHubScreen> {
         body: Center(
           child: DuoBottomBanner(
             title: 'Coming soon',
-            subtitle: 'This language track is not available yet. Python is the active path right now.',
+            subtitle: 'This track is not available yet. The current path is ready for practice and future languages will follow.',
             icon: const Icon(Icons.hourglass_top_rounded, color: Colors.orange),
             actionLabel: 'Back to hub',
             onAction: () => context.go('/home'),
@@ -146,7 +250,7 @@ class _LanguageHubScreenState extends ConsumerState<LanguageHubScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Python path'),
+        title: const Text('Learning path'),
         leading: IconButton(
           onPressed: () => context.go('/home'),
           icon: const Icon(Icons.arrow_back_rounded),
@@ -170,13 +274,13 @@ class _LanguageHubScreenState extends ConsumerState<LanguageHubScreen> {
                 children: [
                   const Row(
                     children: [
-                      Text('🐍', style: TextStyle(fontSize: 34)),
+                      Text('📚', style: TextStyle(fontSize: 34)),
                       SizedBox(width: 10),
-                      Text('Python', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900)),
+                      Text('Learning path', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900)),
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Text('Your course is ready to go. Complete one lesson at a time and build real momentum.', style: TextStyle(fontSize: 14, color: Colors.grey.shade700)),
+                  Text('Your course is ready to go. Move through short lessons, not long walls of text, and build momentum in small steps.', style: TextStyle(fontSize: 14, color: Colors.grey.shade700)),
                   const SizedBox(height: 14),
                   DuoProgressBar(value: progress.clamp(0, 1)),
                   const SizedBox(height: 8),

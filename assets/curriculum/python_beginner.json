@@ -63,6 +63,21 @@
           "correctAnswer": "3",
           "explanation": "len returns item count.",
           "xpReward": 5
+        },
+        {
+          "id": "py_b_01_q6",
+          "type": "fix_the_bug",
+          "questionText": "Fix the list method call.",
+          "codeSnippet": "nums = [1, 2]\nnums.append[3]",
+          "buggyCode": "nums = [1, 2]\nnums.append[3]",
+          "fixedCode": "nums = [1, 2]\nnums.append(3)",
+          "options": ["append[3]", "append(3)", "append{3}"],
+          "bugOptions": ["append[3]", "append(3)", "append{3}"],
+          "blanks": null,
+          "correctAnswer": "append(3)",
+          "bugDescription": "Method calls use parentheses.",
+          "explanation": "Square brackets are for indexing, not function calls.",
+          "xpReward": 5
         }
       ]
     },

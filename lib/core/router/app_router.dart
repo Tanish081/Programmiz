@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:programming_learn_app/features/daily_challenge/daily_challenge_screen.dart';
 import 'package:programming_learn_app/features/language_hub/language_hub_screen.dart';
 import 'package:programming_learn_app/features/onboarding/onboarding_screen.dart';
 import 'package:programming_learn_app/features/placement_quiz/placement_quiz_screen.dart';
+import 'package:programming_learn_app/features/profile/profile_screen.dart';
 import 'package:programming_learn_app/features/splash/splash_screen.dart';
 import 'package:programming_learn_app/features/lesson/lesson_screen.dart';
 import 'package:programming_learn_app/features/progress/progress_screen.dart';
@@ -76,6 +78,14 @@ class AppRouter {
         GoRoute(
           path: '/progress',
           builder: (context, state) => const ProgressScreen(),
+        ),
+        GoRoute(
+          path: '/profile',
+          builder: (context, state) => const ProfileScreen(),
+        ),
+        GoRoute(
+          path: '/daily-challenge',
+          builder: (context, state) => const DailyChallengeScreen(),
         ),
       ],
     );

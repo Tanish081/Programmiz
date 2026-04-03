@@ -28,25 +28,23 @@ class IntroSlide extends StatelessWidget {
             const SizedBox(height: 24),
             
             // Title
-            if (slide.title != null)
-              Text(
-                slide.title!,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
+            Text(
+              slide.title,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
               ),
+            ),
             const SizedBox(height: 16),
             
             // Body text
-            if (slide.body != null)
-              Text(
-                slide.body!,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.black87,
-                  height: 1.6,
-                ),
+            Text(
+              slide.body,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Colors.black87,
+                height: 1.6,
               ),
+            ),
             const SizedBox(height: 32),
           ],
         ),

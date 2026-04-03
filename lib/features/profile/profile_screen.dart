@@ -203,7 +203,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           const SizedBox(height: 4),
           Text('Your last 12 months of coding activity.', style: TextStyle(color: Colors.grey.shade700, fontSize: 12)),
           const SizedBox(height: 8),
-          StreakHeatmapWidget(activityByDate: state.yearlyActivity),
+          const StreakHeatmapWidget(),
         ],
       ),
     );

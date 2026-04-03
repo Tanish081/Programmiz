@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:programming_learn_app/core/providers/app_providers.dart';
 import 'package:programming_learn_app/features/home/home_provider.dart';
 import 'package:programming_learn_app/features/home/widgets/heart_indicator.dart';
@@ -18,6 +21,10 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _tabIndex = 0;
+  bool _showXpOverlay = false;
+  int _pendingXp = 0;
+  String _pendingLessonTitle = '';
+  Timer? _overlayTimer;
 
   static const List<({String id, String name, String icon, bool enabled})> _tracks = [
     (id: 'python', name: 'Python', icon: '🐍', enabled: true),
@@ -34,13 +41,45 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     Future.microtask(() {
       ref.read(homeProvider.notifier).load();
       ref.read(audioServiceProvider).startBackground();
+      _loadPendingXpOverlay();
     });
   }
 
   @override
   void dispose() {
+    _overlayTimer?.cancel();
     ref.read(audioServiceProvider).stopBackground();
     super.dispose();
+  }
+
+  Future<void> _loadPendingXpOverlay() async {
+    final prefs = ref.read(preferencesServiceProvider);
+    final pendingXp = await prefs.getPendingXPAnimation();
+    final lessonTitle = await prefs.getPendingLessonCompleted();
+
+    if (!mounted || pendingXp <= 0 || lessonTitle == null || lessonTitle.isEmpty) {
+      return;
+    }
+
+    setState(() {
+      _pendingXp = pendingXp;
+      _pendingLessonTitle = lessonTitle;
+      _showXpOverlay = true;
+    });
+
+    _overlayTimer?.cancel();
+    _overlayTimer = Timer(const Duration(milliseconds: 1500), () async {
+      await prefs.clearPendingXPAnimation();
+      await prefs.clearPendingLessonCompleted();
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _showXpOverlay = false;
+        _pendingXp = 0;
+        _pendingLessonTitle = '';
+      });
+    });
   }
 
   @override
@@ -59,9 +98,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ],
       ),
-      body: _tabIndex == 1
-          ? const ProgressScreen(embedded: true)
-          : state.isLoading
+        body: Stack(
+        children: [
+          _tabIndex == 1
+            ? const ProgressScreen(embedded: true)
+            : state.isLoading
               ? const Center(child: CircularProgressIndicator())
               : Column(
                   children: [
@@ -230,6 +271,109 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ],
                 ),
+          if (_showXpOverlay)
+            Positioned.fill(
+              child: IgnorePointer(
+                child: Container(
+                  color: Colors.black.withValues(alpha: 0.04),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 112,
+                        left: 0,
+                        right: 0,
+                        child: Center(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFD900),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: const Color(0xFFE6BE00), width: 2),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x33000000),
+                                  blurRadius: 16,
+                                  offset: Offset(0, 8),
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              '+$_pendingXp XP',
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFF1F1F1F),
+                              ),
+                            ),
+                          )
+                              .animate()
+                              .fadeIn(duration: const Duration(milliseconds: 300))
+                              .moveY(begin: 0, end: -60, duration: const Duration(milliseconds: 1000), curve: Curves.easeOut)
+                              .fadeOut(delay: const Duration(milliseconds: 700), duration: const Duration(milliseconds: 300)),
+                        ),
+                      ),
+                      Positioned(
+                        top: 160,
+                        left: 0,
+                        right: 0,
+                        child: Center(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(18),
+                              border: Border.all(color: Colors.black12),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x22000000),
+                                  blurRadius: 14,
+                                  offset: Offset(0, 8),
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              '$_pendingLessonTitle complete! 🎉',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w800,
+                                color: Color(0xFF1F1F1F),
+                              ),
+                            ),
+                          )
+                              .animate(delay: const Duration(milliseconds: 200))
+                              .fadeIn(duration: const Duration(milliseconds: 250))
+                              .moveY(begin: 0, end: -42, duration: const Duration(milliseconds: 900), curve: Curves.easeOut)
+                              .fadeOut(delay: const Duration(milliseconds: 700), duration: const Duration(milliseconds: 250)),
+                        ),
+                      ),
+                      Positioned(
+                        top: 74,
+                        left: 0,
+                        right: 0,
+                        child: Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Text('🎊', style: TextStyle(fontSize: 26)),
+                              SizedBox(width: 6),
+                              Text('🎉', style: TextStyle(fontSize: 26)),
+                              SizedBox(width: 6),
+                              Text('⭐', style: TextStyle(fontSize: 26)),
+                            ],
+                          )
+                              .animate()
+                              .shake(hz: 3, duration: const Duration(milliseconds: 1200))
+                              .fadeIn(duration: const Duration(milliseconds: 250))
+                              .fadeOut(delay: const Duration(milliseconds: 850), duration: const Duration(milliseconds: 250)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tabIndex,
         onDestinationSelected: (value) => setState(() => _tabIndex = value),

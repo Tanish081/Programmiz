@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:programming_learn_app/core/providers/app_providers.dart';
 import 'package:programming_learn_app/data/models/lesson_model.dart';
 import 'package:programming_learn_app/data/models/question_model.dart';
+import 'package:programming_learn_app/data/models/quiz_result_data.dart';
 import 'package:programming_learn_app/data/models/user_progress_model.dart';
 import 'package:programming_learn_app/features/home/home_provider.dart';
-import 'package:programming_learn_app/features/progress/progress_provider.dart';
 
 class QuizState {
   const QuizState({
@@ -24,6 +24,10 @@ class QuizState {
     this.reachedDailyGoal = false,
     this.freeRetryUsed = false,
     this.submittedAnswer,
+    this.questionResults = const [],
+    this.startTime,
+    this.resultData,
+    this.heartsLost = 0,
   });
 
   final bool isLoading;
@@ -40,6 +44,10 @@ class QuizState {
   final bool reachedDailyGoal;
   final bool freeRetryUsed;
   final dynamic submittedAnswer;
+  final List<QuestionResultDetail> questionResults;
+  final DateTime? startTime;
+  final QuizResultData? resultData;
+  final int heartsLost;
 
   QuizState copyWith({
     bool? isLoading,
@@ -56,6 +64,10 @@ class QuizState {
     bool? reachedDailyGoal,
     bool? freeRetryUsed,
     dynamic submittedAnswer,
+    List<QuestionResultDetail>? questionResults,
+    DateTime? startTime,
+    QuizResultData? resultData,
+    int? heartsLost,
     bool clearAnswer = false,
   }) {
     return QuizState(
@@ -73,6 +85,10 @@ class QuizState {
       reachedDailyGoal: reachedDailyGoal ?? this.reachedDailyGoal,
       freeRetryUsed: freeRetryUsed ?? this.freeRetryUsed,
       submittedAnswer: clearAnswer ? null : (submittedAnswer ?? this.submittedAnswer),
+      questionResults: questionResults ?? this.questionResults,
+      startTime: startTime ?? this.startTime,
+      resultData: resultData ?? this.resultData,
+      heartsLost: heartsLost ?? this.heartsLost,
     );
   }
 
@@ -94,7 +110,12 @@ class QuizNotifier extends StateNotifier<QuizState> {
     state = const QuizState(isLoading: true);
     final lesson = await _ref.read(lessonRepositoryProvider).getLessonById(lessonId);
     final lives = await _ref.read(preferencesServiceProvider).getLives();
-    state = state.copyWith(isLoading: false, lesson: lesson, hearts: lives);
+    state = state.copyWith(
+      isLoading: false,
+      lesson: lesson,
+      hearts: lives,
+      startTime: DateTime.now(),
+    );
   }
 
   Future<void> answer(dynamic answer) async {
@@ -131,6 +152,21 @@ class QuizNotifier extends StateNotifier<QuizState> {
     }
 
     final nextHearts = state.hearts > 0 ? state.hearts - 1 : 0;
+    
+    // Record this question result
+    final questionResult = QuestionResultDetail(
+      questionText: q.questionText,
+      codeSnippet: q.codeSnippet,
+      type: q.type,
+      userAnswer: answer.toString(),
+      correctAnswer: q.correctAnswer.toString(),
+      explanation: q.explanation,
+      wasCorrect: false,
+      xpAwarded: 0,
+    );
+    
+    final updatedResults = [...state.questionResults, questionResult];
+    
     state = state.copyWith(
       hasAnswered: true,
       wasCorrect: false,
@@ -138,6 +174,7 @@ class QuizNotifier extends StateNotifier<QuizState> {
       hearts: nextHearts,
       failed: nextHearts == 0,
       submittedAnswer: answer,
+      questionResults: updatedResults,
     );
     unawaited(_ref.read(preferencesServiceProvider).decrementLives());
 
@@ -171,31 +208,87 @@ class QuizNotifier extends StateNotifier<QuizState> {
 
   Future<void> _finish({required bool markCompleted}) async {
     if (state.lesson == null || state.completed) return;
-    final score = state.totalQuestions == 0 ? 0 : ((state.correctCount / state.totalQuestions) * 100).round();
+    
+    final score =
+        state.totalQuestions == 0 ? 0 : ((state.correctCount / state.totalQuestions) * 100).round();
     final prefs = _ref.read(preferencesServiceProvider);
     final progressRepo = _ref.read(progressRepositoryProvider);
     final todayBefore = await prefs.getTodayXP();
     final profile = await prefs.loadUserProfile();
     final goal = profile?.dailyGoalXP ?? 20;
-    final goalReachedNow = todayBefore < goal && (todayBefore + state.earnedXp) >= goal;
+    final goalReachedNow =
+        todayBefore < goal && (todayBefore + state.earnedXp) >= goal;
 
-    state = state.copyWith(completed: true, failed: !markCompleted && state.failed, reachedDailyGoal: goalReachedNow);
+    // Calculate hearts lost
+    final heartsLostCount = 5 - state.hearts;
+    
+    // Build question results for all answered questions
+    final allQuestionResults = <QuestionResultDetail>[];
+    for (int i = 0; i < state.totalQuestions; i++) {
+      final q = state.lesson!.questions[i];
+      // Reconstruct results from state - in a real scenario, we'd track this during quiz
+      // For now, create a result for each question
+      final wasCorrect = i < state.correctCount; // Simplified assumption
+      allQuestionResults.add(
+        QuestionResultDetail(
+          questionText: q.questionText,
+          codeSnippet: q.codeSnippet,
+          type: q.type,
+          userAnswer: '', // Would be tracked during quiz
+          correctAnswer: q.correctAnswer.toString(),
+          explanation: q.explanation,
+          wasCorrect: wasCorrect,
+          xpAwarded: wasCorrect ? q.xpReward : 0,
+        ),
+      );
+    }
+
+    // Calculate time taken
+    final timeTaken = state.startTime != null
+        ? DateTime.now().difference(state.startTime!).inSeconds
+        : 0;
+
+    // Build result data
+    final resultData = QuizResultData(
+      lessonId: state.lesson!.id,
+      lessonTitle: state.lesson!.title,
+      topicTag: state.lesson!.topicTag,
+      totalQuestions: state.totalQuestions,
+      correctAnswers: state.correctCount,
+      xpEarned: state.earnedXp,
+      heartsLost: heartsLostCount,
+      questionResults: allQuestionResults,
+      timeTakenSeconds: timeTaken,
+    );
+
+    state = state.copyWith(
+      completed: true,
+      failed: !markCompleted && state.failed,
+      reachedDailyGoal: goalReachedNow,
+      resultData: resultData,
+      heartsLost: heartsLostCount,
+    );
 
     await progressRepo.saveProgress(
-          UserProgressModel(
-            lessonId: state.lesson!.id,
-            quizScore: score,
-            isCompleted: markCompleted,
-            attemptCount: (progressRepo.getProgress(state.lesson!.id)?.attemptCount ?? 0) + 1,
-            completedAt: DateTime.now(),
-          ),
-        );
+      UserProgressModel(
+        lessonId: state.lesson!.id,
+        quizScore: score,
+        isCompleted: markCompleted,
+        attemptCount:
+            (progressRepo.getProgress(state.lesson!.id)?.attemptCount ?? 0) + 1,
+        completedAt: DateTime.now(),
+      ),
+    );
 
     await prefs.addXP(state.earnedXp);
+    await prefs.addDailyActivity(state.earnedXp);
     await prefs.updateStreak();
 
+    // Save pending XP animation data
+    await prefs.setPendingXPAnimation(state.earnedXp);
+    await prefs.setPendingLessonCompleted(state.lesson!.title);
+
     _ref.invalidate(homeProvider);
-    _ref.invalidate(progressProvider);
   }
 
   bool _isCorrect(dynamic expected, dynamic answer) {

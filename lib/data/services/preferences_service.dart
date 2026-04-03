@@ -322,4 +322,78 @@ class PreferencesService {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getInt(keyFixTheBugCompleted) ?? 0;
   }
+
+  // Hearts refill timer methods
+  Future<void> setHeartsEmptySince(DateTime time) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('heartsEmptySince', time.toIso8601String());
+  }
+
+  Future<DateTime?> getHeartsEmptySince() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString('heartsEmptySince');
+    if (raw == null) return null;
+    return DateTime.tryParse(raw);
+  }
+
+  Future<void> restoreHeartsIfReady() async {
+    final prefs = await SharedPreferences.getInstance();
+    final emptySince = await getHeartsEmptySince();
+    if (emptySince == null) return;
+
+    final now = DateTime.now();
+    final refillTime = emptySince.add(const Duration(minutes: 30));
+
+    if (refillTime.isBefore(now) || refillTime.isAtSameMomentAs(now)) {
+      await prefs.setInt(keyLives, 5);
+      await prefs.remove('heartsEmptySince');
+    }
+  }
+
+  Future<void> setLives(int lives) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(keyLives, lives);
+  }
+
+  // Sound toggle
+  Future<bool> isSoundEnabled() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('sound_enabled') ?? true;
+  }
+
+  Future<void> toggleSound(bool enabled) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('sound_enabled', enabled);
+  }
+
+  // Pending animation data
+  Future<void> setPendingXPAnimation(int xp) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('pending_xp_animation', xp);
+  }
+
+  Future<int> getPendingXPAnimation() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('pending_xp_animation') ?? 0;
+  }
+
+  Future<void> clearPendingXPAnimation() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('pending_xp_animation');
+  }
+
+  Future<void> setPendingLessonCompleted(String lessonTitle) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('pending_lesson_completed', lessonTitle);
+  }
+
+  Future<String?> getPendingLessonCompleted() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('pending_lesson_completed');
+  }
+
+  Future<void> clearPendingLessonCompleted() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('pending_lesson_completed');
+  }
 }

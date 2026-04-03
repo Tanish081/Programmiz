@@ -9,6 +9,7 @@ import 'package:programming_learn_app/features/quiz/widgets/arrange_code_widget.
 import 'package:programming_learn_app/features/quiz/widgets/fill_blank_widget.dart';
 import 'package:programming_learn_app/features/quiz/widgets/fix_the_bug_widget.dart';
 import 'package:programming_learn_app/features/quiz/widgets/mcq_widget.dart';
+import 'package:programming_learn_app/ui/components/hearts_refill_banner.dart';
 import 'package:programming_learn_app/ui/components/mascot_widget.dart';
 
 class QuizScreen extends ConsumerStatefulWidget {
@@ -186,6 +187,16 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                 );
               }),
             ),
+            if (state.hearts == 0) ...[
+              const SizedBox(height: 10),
+              HeartsRefillBanner(
+                onClose: () {
+                  if (mounted) {
+                    setState(() {});
+                  }
+                },
+              ),
+            ],
             const SizedBox(height: 16),
             Center(
               child: MascotWidget(message: mascotMessage, size: 48),

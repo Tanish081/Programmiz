@@ -15,8 +15,6 @@ class CodeDemoSlide extends StatefulWidget {
 }
 
 class _CodeDemoSlideState extends State<CodeDemoSlide> {
-  bool _codeExpanded = false;
-
   void _copyToClipboard(String text) {
     Clipboard.setData(ClipboardData(text: text));
     ScaffoldMessenger.of(context).showSnackBar(
@@ -33,25 +31,23 @@ class _CodeDemoSlideState extends State<CodeDemoSlide> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Title
-            if (widget.slide.title != null)
-              Text(
-                widget.slide.title!,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
+            Text(
+              widget.slide.title,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
               ),
+            ),
             const SizedBox(height: 12),
             
             // Body/explanation
-            if (widget.slide.body != null)
-              Text(
-                widget.slide.body!,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.black87,
-                  height: 1.6,
-                ),
+            Text(
+              widget.slide.body,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Colors.black87,
+                height: 1.6,
               ),
+            ),
             const SizedBox(height: 16),
             
             // Code snippet

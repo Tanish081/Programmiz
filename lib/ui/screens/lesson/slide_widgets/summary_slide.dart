@@ -38,39 +38,37 @@ class SummarySlide extends StatelessWidget {
             const SizedBox(height: 24),
             
             // Title
-            if (slide.title != null)
-              Center(
-                child: Text(
-                  slide.title!,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                  textAlign: TextAlign.center,
+            Center(
+              child: Text(
+                slide.title,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
                 ),
+                textAlign: TextAlign.center,
               ),
+            ),
             const SizedBox(height: 20),
             
             // Summary content
-            if (slide.body != null)
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF5F5F5),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: const Color(0xFF4CAF50),
-                    width: 2,
-                  ),
-                ),
-                child: Text(
-                  slide.body!,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Colors.black87,
-                    height: 1.8,
-                  ),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF5F5F5),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: const Color(0xFF4CAF50),
+                  width: 2,
                 ),
               ),
+              child: Text(
+                slide.body,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Colors.black87,
+                  height: 1.8,
+                ),
+              ),
+            ),
             const SizedBox(height: 20),
             
             // Next steps hint

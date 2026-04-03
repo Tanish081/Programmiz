@@ -35,15 +35,14 @@ class AnalogySlide extends StatelessWidget {
             const SizedBox(height: 20),
             
             // Title
-            if (slide.title != null)
-              Text(
-                slide.title!,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-                textAlign: TextAlign.center,
+            Text(
+              slide.title,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
               ),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 16),
             
             // Analogy text in a highlighted box
@@ -69,10 +68,10 @@ class AnalogySlide extends StatelessWidget {
               ),
             
             // Body/explanation below analogy
-            if (slide.body != null) ...[
+            if (slide.body.isNotEmpty) ...[
               const SizedBox(height: 16),
               Text(
-                slide.body!,
+                slide.body,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.black54,
                   height: 1.6,

@@ -26,36 +26,34 @@ class CommonMistakeSlide extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Title
-            if (slide.title != null)
-              Row(
-                children: [
-                  const Text(
-                    '❌',
-                    style: TextStyle(fontSize: 32),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      slide.title!,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFFD32F2F),
-                      ),
+            Row(
+              children: [
+                const Text(
+                  '❌',
+                  style: TextStyle(fontSize: 32),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    slide.title,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFFD32F2F),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
             const SizedBox(height: 16),
             
             // Body/explanation
-            if (slide.body != null)
-              Text(
-                slide.body!,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.black87,
-                  height: 1.6,
-                ),
+            Text(
+              slide.body,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Colors.black87,
+                height: 1.6,
               ),
+            ),
             const SizedBox(height: 16),
             
             // Mistake code example

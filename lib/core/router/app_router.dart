@@ -9,8 +9,11 @@ import 'package:programming_learn_app/features/placement_quiz/placement_quiz_scr
 import 'package:programming_learn_app/features/profile/profile_screen.dart';
 import 'package:programming_learn_app/features/splash/splash_screen.dart';
 import 'package:programming_learn_app/features/lesson/lesson_screen.dart';
+import 'package:programming_learn_app/features/lesson/lesson_notes_screen.dart';
 import 'package:programming_learn_app/features/progress/progress_screen.dart';
 import 'package:programming_learn_app/features/quiz/quiz_screen.dart';
+import 'package:programming_learn_app/features/quiz/quiz_results_screen.dart';
+import 'package:programming_learn_app/data/models/quiz_result_data.dart';
 import 'package:programming_learn_app/data/services/preferences_service.dart';
 import 'package:programming_learn_app/ui/components/app_scaffold.dart';
 
@@ -48,6 +51,16 @@ class AppRouter {
             return QuizScreen(lessonId: lessonId);
           },
         ),
+        GoRoute(
+          path: '/quiz-results',
+          builder: (context, state) {
+            final data = state.extra as QuizResultData?;
+            if (data == null) {
+              return const _RouteErrorScreen(message: 'Missing quiz result data');
+            }
+            return QuizResultsScreen(data: data);
+          },
+        ),
         ShellRoute(
           builder: (context, state, child) => AppScaffold(child: child),
           routes: [
@@ -77,6 +90,16 @@ class AppRouter {
                   return const _RouteErrorScreen(message: 'Missing lesson id');
                 }
                 return LessonScreen(lessonId: lessonId);
+              },
+            ),
+            GoRoute(
+              path: '/lesson-notes/:lessonId',
+              builder: (context, state) {
+                final lessonId = state.pathParameters['lessonId'];
+                if (lessonId == null || lessonId.isEmpty) {
+                  return const _RouteErrorScreen(message: 'Missing lesson id');
+                }
+                return LessonNotesScreen(lessonId: lessonId);
               },
             ),
             GoRoute(

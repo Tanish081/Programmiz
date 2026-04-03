@@ -38,21 +38,20 @@ class _TryItSlideState extends State<TryItSlide> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Title
-            if (widget.slide.title != null)
-              Row(
-                children: [
-                  const Text(
-                    '🎯',
-                    style: TextStyle(fontSize: 32),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      widget.slide.title!,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
+            Row(
+              children: [
+                const Text(
+                  '🎯',
+                  style: TextStyle(fontSize: 32),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    widget.slide.title,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
                     ),
                   ),
                 ],

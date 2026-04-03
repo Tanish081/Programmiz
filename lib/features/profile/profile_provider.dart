@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:programming_learn_app/core/providers/app_providers.dart';
+import 'package:programming_learn_app/data/models/lesson_progress_detail_model.dart';
 import 'package:programming_learn_app/data/models/user_profile_model.dart';
 
 class ProfileAchievement {
@@ -32,6 +33,7 @@ class ProfileState {
     this.fixTheBugCompleted = 0,
     this.yearlyActivity = const {},
     this.achievements = const [],
+    this.lessonsByLevel = const {},
   });
 
   final bool isLoading;
@@ -46,6 +48,7 @@ class ProfileState {
   final int fixTheBugCompleted;
   final Map<String, int> yearlyActivity;
   final List<ProfileAchievement> achievements;
+  final Map<String, List<LessonProgressDetail>> lessonsByLevel;
 
   ProfileState copyWith({
     bool? isLoading,
@@ -60,6 +63,7 @@ class ProfileState {
     int? fixTheBugCompleted,
     Map<String, int>? yearlyActivity,
     List<ProfileAchievement>? achievements,
+    Map<String, List<LessonProgressDetail>>? lessonsByLevel,
   }) {
     return ProfileState(
       isLoading: isLoading ?? this.isLoading,
@@ -74,6 +78,7 @@ class ProfileState {
       fixTheBugCompleted: fixTheBugCompleted ?? this.fixTheBugCompleted,
       yearlyActivity: yearlyActivity ?? this.yearlyActivity,
       achievements: achievements ?? this.achievements,
+      lessonsByLevel: lessonsByLevel ?? this.lessonsByLevel,
     );
   }
 }
@@ -82,6 +87,39 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   ProfileNotifier(this._ref) : super(const ProfileState());
 
   final Ref _ref;
+
+  Future<Map<String, List<LessonProgressDetail>>> loadLessonDetails() async {
+    final lessonRepo = _ref.read(lessonRepositoryProvider);
+    final progressRepo = _ref.read(progressRepositoryProvider);
+
+    final lessons = await lessonRepo.getAllLessons();
+    final grouped = <String, List<LessonProgressDetail>>{
+      'absolute_beginner': <LessonProgressDetail>[],
+      'beginner': <LessonProgressDetail>[],
+      'intermediate': <LessonProgressDetail>[],
+    };
+
+    for (final lesson in lessons) {
+      final progress = progressRepo.getProgress(lesson.id);
+      final detail = LessonProgressDetail(
+        lessonId: lesson.id,
+        title: lesson.title,
+        topicTag: lesson.topicTag,
+        level: lesson.level,
+        isCompleted: progress?.isCompleted ?? false,
+        quizScore: progress?.quizScore ?? 0,
+        attemptCount: progress?.attemptCount ?? 0,
+        completedAt: progress?.completedAt,
+      );
+      grouped.putIfAbsent(lesson.level, () => <LessonProgressDetail>[]).add(detail);
+    }
+
+    for (final key in grouped.keys) {
+      grouped[key]!.sort((a, b) => a.lessonId.compareTo(b.lessonId));
+    }
+
+    return grouped;
+  }
 
   Future<void> load() async {
     state = state.copyWith(isLoading: true);
@@ -104,6 +142,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         : (progress.map((entry) => entry.quizScore).reduce((a, b) => a + b) / totalQuizzesTaken).round();
 
     final unlocked = await prefs.getUnlockedAchievements();
+    final lessonsByLevel = await loadLessonDetails();
 
     Future<bool> isUnlocked(String id, bool qualifies) async {
       if (unlocked.contains(id)) {
@@ -173,6 +212,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       fixTheBugCompleted: fixCount,
       yearlyActivity: yearlyActivity,
       achievements: achievements,
+      lessonsByLevel: lessonsByLevel,
     );
   }
 

@@ -14,6 +14,8 @@ class ProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  final Set<String> _expandedLevels = <String>{};
+
   @override
   void initState() {
     super.initState();
@@ -50,6 +52,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     }
   }
 
+  Color _levelColor(String level) {
+    switch (level) {
+      case 'beginner':
+        return const Color(0xFF1CB0F6);
+      case 'intermediate':
+        return const Color(0xFF7A4CFF);
+      default:
+        return const Color(0xFF58CC02);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(profileProvider);
@@ -75,6 +88,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   _statsGrid(state),
                   const SizedBox(height: 14),
                   _activitySection(state),
+                  const SizedBox(height: 14),
+                  _lessonsByLevelSection(state),
                   const SizedBox(height: 14),
                   _achievementsSection(state),
                 ],
@@ -233,6 +248,136 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ),
                   ),
                   Icon(unlocked ? Icons.lock_open_rounded : Icons.lock_outline_rounded, color: unlocked ? AppColors.primaryDark : Colors.grey),
+                ],
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  Widget _lessonsByLevelSection(ProfileState state) {
+    final levels = ['absolute_beginner', 'beginner', 'intermediate'];
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.outline),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Lesson Progress by Level', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+          const SizedBox(height: 8),
+          ...levels.map((level) {
+            final lessons = state.lessonsByLevel[level] ?? const [];
+            final completed = lessons.where((lesson) => lesson.isCompleted).length;
+            final isExpanded = _expandedLevels.contains(level);
+            final color = _levelColor(level);
+
+            return Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade50,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: color.withValues(alpha: 0.35)),
+              ),
+              child: Column(
+                children: [
+                  InkWell(
+                    borderRadius: BorderRadius.circular(14),
+                    onTap: () {
+                      setState(() {
+                        if (isExpanded) {
+                          _expandedLevels.remove(level);
+                        } else {
+                          _expandedLevels.add(level);
+                        }
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 10,
+                            height: 10,
+                            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(_levelLabel(level), style: const TextStyle(fontWeight: FontWeight.w800)),
+                                const SizedBox(height: 2),
+                                Text(
+                                  '$completed / ${lessons.length} lessons completed',
+                                  style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            isExpanded ? Icons.expand_less_rounded : Icons.expand_more_rounded,
+                            color: Colors.grey.shade700,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  if (isExpanded)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
+                      child: Column(
+                        children: lessons.map((lesson) {
+                          final done = lesson.isCompleted;
+                          return Container(
+                            margin: const EdgeInsets.only(top: 8),
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: done ? const Color(0xFFEFFEDE) : Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: done ? AppColors.primary : Colors.grey.shade300),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  done ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded,
+                                  color: done ? AppColors.primaryDark : Colors.grey,
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(lesson.title, style: const TextStyle(fontWeight: FontWeight.w700)),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        lesson.topicTag,
+                                        style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                if (done)
+                                  Text(
+                                    '${lesson.quizScore}%',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      color: AppColors.primaryDark,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
                 ],
               ),
             );

@@ -1,345 +1,735 @@
-{
-  "level": "absolute_beginner",
-  "lessons": [
-    {
-      "id": "py_ab_01",
-      "title": "Hello Python",
-      "description": "Print text and understand basic syntax.",
-      "topicTag": "syntax",
-      "xpReward": 20,
-      "codeExample": "print('Hello, Python!')",
-      "questions": [
-        {
-          "id": "py_ab_01_q1",
-          "type": "mcq",
-          "questionText": "Which function displays output in Python?",
-          "codeSnippet": null,
-          "options": ["echo()", "print()", "show()", "write()"],
-          "blanks": null,
-          "correctAnswer": "print()",
-          "explanation": "print() sends text to the console.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_01_q2",
-          "type": "fill_blank",
-          "questionText": "Fill the blank to print Hello.",
-          "codeSnippet": "___('Hello')",
-          "options": null,
-          "blanks": ["print", "echo", "show"],
-          "correctAnswer": ["print"],
-          "explanation": "Use print as the output function name.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_01_q3",
-          "type": "mcq",
-          "questionText": "What does this output? print(2 + 3)",
-          "codeSnippet": "print(2 + 3)",
-          "options": ["23", "5", "2 + 3", "Error"],
-          "blanks": null,
-          "correctAnswer": "5",
-          "explanation": "Python evaluates arithmetic before printing.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_01_q4",
-          "type": "arrange_code",
-          "questionText": "Arrange to print Welcome.",
-          "codeSnippet": null,
-          "options": null,
-          "blanks": null,
-          "correctAnswer": ["message = 'Welcome'", "print(message)"],
-          "explanation": "Create variable first, then print it.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_01_q5",
-          "type": "mcq",
-          "questionText": "Which quote style is valid for strings?",
-          "codeSnippet": null,
-          "options": ["Single only", "Double only", "Both single and double", "None"],
-          "blanks": null,
-          "correctAnswer": "Both single and double",
-          "explanation": "Python accepts both single and double quotes.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_01_q6",
-          "type": "fix_the_bug",
-          "questionText": "Fix the comparison bug in the condition.",
-          "codeSnippet": "if score = 10:\n    print('Perfect')",
-          "buggyCode": "if score = 10:\n    print('Perfect')",
-          "fixedCode": "if score == 10:\n    print('Perfect')",
-          "options": ["score = 10", "score == 10", "score := 10"],
-          "bugOptions": ["score = 10", "score == 10", "score := 10"],
-          "blanks": null,
-          "correctAnswer": "score == 10",
-          "bugDescription": "Use == when comparing values.",
-          "explanation": "Single = assigns a value, while == compares values.",
-          "xpReward": 5
-        }
-      ]
-    },
-    {
-      "id": "py_ab_02",
-      "title": "Variables",
-      "description": "Store and reuse values with variables.",
-      "topicTag": "variables",
-      "xpReward": 20,
-      "codeExample": "name = 'Ada'\nprint(name)",
-      "questions": [
-        {
-          "id": "py_ab_02_q1",
-          "type": "mcq",
-          "questionText": "Which is a valid variable assignment?",
-          "codeSnippet": null,
-          "options": ["x == 5", "5 = x", "x = 5", "let x = 5"],
-          "blanks": null,
-          "correctAnswer": "x = 5",
-          "explanation": "Use = to assign a value.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_02_q2",
-          "type": "fill_blank",
-          "questionText": "Complete the variable name.",
-          "codeSnippet": "___ = 10",
-          "options": null,
-          "blanks": ["score", "10", "="],
-          "correctAnswer": ["score"],
-          "explanation": "Variable name goes on the left side.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_02_q3",
-          "type": "mcq",
-          "questionText": "What is the result of x = 2; y = 3; print(x + y)?",
-          "codeSnippet": null,
-          "options": ["23", "5", "6", "Error"],
-          "blanks": null,
-          "correctAnswer": "5",
-          "explanation": "Adds numeric values 2 and 3.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_02_q4",
-          "type": "arrange_code",
-          "questionText": "Arrange code to store and print age.",
-          "codeSnippet": null,
-          "options": null,
-          "blanks": null,
-          "correctAnswer": ["age = 18", "print(age)"],
-          "explanation": "Assign first, print second.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_02_q5",
-          "type": "mcq",
-          "questionText": "Which variable name is best practice?",
-          "codeSnippet": null,
-          "options": ["user-name", "2score", "user_name", "class"],
-          "blanks": null,
-          "correctAnswer": "user_name",
-          "explanation": "Snake case with letters/underscores is valid.",
-          "xpReward": 5
-        }
-      ]
-    },
-    {
-      "id": "py_ab_03",
-      "title": "Input and Conversion",
-      "description": "Read user input and convert types.",
-      "topicTag": "input",
-      "xpReward": 20,
-      "codeExample": "age = int(input('Age: '))\nprint(age + 1)",
-      "questions": [
-        {
-          "id": "py_ab_03_q1",
-          "type": "mcq",
-          "questionText": "What does input() return?",
-          "codeSnippet": null,
-          "options": ["int", "float", "str", "bool"],
-          "blanks": null,
-          "correctAnswer": "str",
-          "explanation": "input() returns text by default.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_03_q2",
-          "type": "fill_blank",
-          "questionText": "Fill conversion to number.",
-          "codeSnippet": "age = ___(input('Age: '))",
-          "options": null,
-          "blanks": ["int", "str", "print"],
-          "correctAnswer": ["int"],
-          "explanation": "int() converts text to integer.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_03_q3",
-          "type": "mcq",
-          "questionText": "Which expression adds two numbers from input safely?",
-          "codeSnippet": null,
-          "options": ["input() + input()", "int(input()) + int(input())", "str(input()) + str(input())", "print(input())"],
-          "blanks": null,
-          "correctAnswer": "int(input()) + int(input())",
-          "explanation": "Convert both inputs to int before adding.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_03_q4",
-          "type": "arrange_code",
-          "questionText": "Arrange to read a name and print it.",
-          "codeSnippet": null,
-          "options": null,
-          "blanks": null,
-          "correctAnswer": ["name = input('Name: ')", "print(name)"],
-          "explanation": "Read first, then output.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_03_q5",
-          "type": "mcq",
-          "questionText": "What happens with int('abc')?",
-          "codeSnippet": null,
-          "options": ["Returns 0", "Returns abc", "Raises ValueError", "Converts automatically"],
-          "blanks": null,
-          "correctAnswer": "Raises ValueError",
-          "explanation": "Non-numeric strings cannot become int.",
-          "xpReward": 5
-        }
-      ]
-    },
-    {
-      "id": "py_ab_04",
-      "title": "If Statements",
-      "description": "Run code conditionally with if/else.",
-      "topicTag": "conditions",
-      "xpReward": 20,
-      "codeExample": "score = 80\nif score >= 50:\n    print('Pass')\nelse:\n    print('Fail')",
-      "questions": [
-        {
-          "id": "py_ab_04_q1",
-          "type": "mcq",
-          "questionText": "Which keyword starts a conditional block?",
-          "codeSnippet": null,
-          "options": ["if", "for", "def", "while"],
-          "blanks": null,
-          "correctAnswer": "if",
-          "explanation": "if begins condition-based branching.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_04_q2",
-          "type": "fill_blank",
-          "questionText": "Fill the keyword.",
-          "codeSnippet": "___ x > 5:\n    print('big')",
-          "options": null,
-          "blanks": ["if", "for", "while"],
-          "correctAnswer": ["if"],
-          "explanation": "if checks a condition.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_04_q3",
-          "type": "mcq",
-          "questionText": "What symbol pair means greater than or equal?",
-          "codeSnippet": null,
-          "options": [">=", "=>", "==", "=<"],
-          "blanks": null,
-          "correctAnswer": ">=",
-          "explanation": ">= is the correct comparison operator.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_04_q4",
-          "type": "arrange_code",
-          "questionText": "Arrange if/else structure.",
-          "codeSnippet": null,
-          "options": null,
-          "blanks": null,
-          "correctAnswer": ["if score >= 50:", "    print('Pass')", "else:", "    print('Fail')"],
-          "explanation": "if block first, else block second.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_04_q5",
-          "type": "mcq",
-          "questionText": "Which condition is true when x is 3?",
-          "codeSnippet": null,
-          "options": ["x > 3", "x == 3", "x < 1", "x != 3"],
-          "blanks": null,
-          "correctAnswer": "x == 3",
-          "explanation": "Equality check matches exactly 3.",
-          "xpReward": 5
-        }
-      ]
-    },
-    {
-      "id": "py_ab_05",
-      "title": "For Loops",
-      "description": "Repeat tasks using for and range.",
-      "topicTag": "loops",
-      "xpReward": 20,
-      "codeExample": "for i in range(3):\n    print(i)",
-      "questions": [
-        {
-          "id": "py_ab_05_q1",
-          "type": "mcq",
-          "questionText": "Which function creates a sequence of numbers?",
-          "codeSnippet": null,
-          "options": ["loop()", "list()", "range()", "seq()"],
-          "blanks": null,
-          "correctAnswer": "range()",
-          "explanation": "range() is used commonly in for loops.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_05_q2",
-          "type": "fill_blank",
-          "questionText": "Complete this loop header.",
-          "codeSnippet": "for i in ___(5):\n    print(i)",
-          "options": null,
-          "blanks": ["range", "print", "input"],
-          "correctAnswer": ["range"],
-          "explanation": "range supplies the iterator values.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_05_q3",
-          "type": "mcq",
-          "questionText": "How many times does range(3) iterate?",
-          "codeSnippet": null,
-          "options": ["2", "3", "4", "0"],
-          "blanks": null,
-          "correctAnswer": "3",
-          "explanation": "Values are 0, 1, 2.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_05_q4",
-          "type": "arrange_code",
-          "questionText": "Arrange to print numbers 0 to 2.",
-          "codeSnippet": null,
-          "options": null,
-          "blanks": null,
-          "correctAnswer": ["for i in range(3):", "    print(i)"],
-          "explanation": "Loop line before loop body.",
-          "xpReward": 5
-        },
-        {
-          "id": "py_ab_05_q5",
-          "type": "mcq",
-          "questionText": "What keyword is used after for to define loop variable?",
-          "codeSnippet": null,
-          "options": ["to", "in", "as", "with"],
-          "blanks": null,
-          "correctAnswer": "in",
-          "explanation": "for item in sequence is Python syntax.",
-          "xpReward": 5
-        }
-      ]
-    }
-  ]
+﻿{
+    "level":  "absolute_beginner",
+    "lessons":  [
+                    {
+                        "id":  "py_ab_01",
+                        "title":  "Hello Python",
+                        "description":  "Print text and understand basic syntax.",
+                        "topicTag":  "syntax",
+                        "xpReward":  20,
+                        "codeExample":  "print(\u0027Hello, Python!\u0027)",
+                        "questions":  [
+                                          {
+                                              "id":  "py_ab_01_q1",
+                                              "type":  "mcq",
+                                              "questionText":  "Which function displays output in Python?",
+                                              "codeSnippet":  null,
+                                              "options":  [
+                                                              "echo()",
+                                                              "print()",
+                                                              "show()",
+                                                              "write()"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "print()",
+                                              "explanation":  "print() sends text to the console.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_01_q2",
+                                              "type":  "fill_blank",
+                                              "questionText":  "Fill the blank to print Hello.",
+                                              "codeSnippet":  "___(\u0027Hello\u0027)",
+                                              "options":  null,
+                                              "blanks":  [
+                                                             "print",
+                                                             "echo",
+                                                             "show"
+                                                         ],
+                                              "correctAnswer":  [
+                                                                    "print"
+                                                                ],
+                                              "explanation":  "Use print as the output function name.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_01_q3",
+                                              "type":  "mcq",
+                                              "questionText":  "What does this output? print(2 + 3)",
+                                              "codeSnippet":  "print(2 + 3)",
+                                              "options":  [
+                                                              "23",
+                                                              "5",
+                                                              "2 + 3",
+                                                              "Error"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "5",
+                                              "explanation":  "Python evaluates arithmetic before printing.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_01_q4",
+                                              "type":  "arrange_code",
+                                              "questionText":  "Arrange to print Welcome.",
+                                              "codeSnippet":  null,
+                                              "options":  null,
+                                              "blanks":  null,
+                                              "correctAnswer":  [
+                                                                    "message = \u0027Welcome\u0027",
+                                                                    "print(message)"
+                                                                ],
+                                              "explanation":  "Create variable first, then print it.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_01_q5",
+                                              "type":  "mcq",
+                                              "questionText":  "Which quote style is valid for strings?",
+                                              "codeSnippet":  null,
+                                              "options":  [
+                                                              "Single only",
+                                                              "Double only",
+                                                              "Both single and double",
+                                                              "None"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "Both single and double",
+                                              "explanation":  "Python accepts both single and double quotes.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_01_q6",
+                                              "type":  "fix_the_bug",
+                                              "questionText":  "Fix the comparison bug in the condition.",
+                                              "codeSnippet":  "if score = 10:\n    print(\u0027Perfect\u0027)",
+                                              "buggyCode":  "if score = 10:\n    print(\u0027Perfect\u0027)",
+                                              "fixedCode":  "if score == 10:\n    print(\u0027Perfect\u0027)",
+                                              "options":  [
+                                                              "score = 10",
+                                                              "score == 10",
+                                                              "score := 10"
+                                                          ],
+                                              "bugOptions":  [
+                                                                 "score = 10",
+                                                                 "score == 10",
+                                                                 "score := 10"
+                                                             ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "score == 10",
+                                              "bugDescription":  "Use == when comparing values.",
+                                              "explanation":  "Single = assigns a value, while == compares values.",
+                                              "xpReward":  5
+                                          }
+                                      ],
+                        "slides":  [
+                                       {
+                                           "title":  "Welcome to Hello Python",
+                                           "body":  "Print text and understand basic syntax.",
+                                           "emoji":  "🚀",
+                                           "type":  "intro"
+                                       },
+                                       {
+                                           "title":  "Core Concept",
+                                           "body":  "In this lesson, you will focus on syntax and understand how it works in practical code.",
+                                           "emoji":  "🧠",
+                                           "type":  "concept"
+                                       },
+                                       {
+                                           "codeOutput":  "Output depends on input and lesson context.",
+                                           "title":  "See It In Code",
+                                           "body":  "Read this example carefully and notice what each line is doing.",
+                                           "codeSnippet":  "print(\u0027Hello, Python!\u0027)",
+                                           "type":  "code_demo"
+                                       },
+                                       {
+                                           "title":  "Think About It This Way",
+                                           "body":  "Relating code to real life makes it easier to remember.",
+                                           "emoji":  "🔗",
+                                           "analogyText":  "syntax is like following a simple recipe: do each step in order and you get the expected result.",
+                                           "type":  "analogy"
+                                       },
+                                       {
+                                           "title":  "Common Mistake to Avoid",
+                                           "body":  "Beginners often confuse syntax and logic. Compare the wrong and correct version below.",
+                                           "correctedCode":  "if score == 10:\n    print(\u0027Perfect\u0027)",
+                                           "type":  "common_mistake",
+                                           "mistakeCode":  "if score = 10:\n    print(\u0027Perfect\u0027)"
+                                       },
+                                       {
+                                           "body":  "Choose the best answer to check your understanding.",
+                                           "tryItAnswer":  "0",
+                                           "type":  "try_it",
+                                           "tryItOptions":  [
+                                                                "Use clear syntax and test small steps",
+                                                                "Skip syntax details and guess output",
+                                                                "Ignore errors and continue coding"
+                                                            ],
+                                           "title":  "Try It Yourself",
+                                           "tryItPrompt":  "Which option is most accurate for this lesson on syntax?"
+                                       },
+                                       {
+                                           "title":  "Lesson Recap",
+                                           "body":  "Great work. You covered syntax, reviewed an example, saw common pitfalls, and practiced with a quick checkpoint.",
+                                           "type":  "summary"
+                                       }
+                                   ]
+                    },
+                    {
+                        "id":  "py_ab_02",
+                        "title":  "Variables",
+                        "description":  "Store and reuse values with variables.",
+                        "topicTag":  "variables",
+                        "xpReward":  20,
+                        "codeExample":  "name = \u0027Ada\u0027\nprint(name)",
+                        "questions":  [
+                                          {
+                                              "id":  "py_ab_02_q1",
+                                              "type":  "mcq",
+                                              "questionText":  "Which is a valid variable assignment?",
+                                              "codeSnippet":  null,
+                                              "options":  [
+                                                              "x == 5",
+                                                              "5 = x",
+                                                              "x = 5",
+                                                              "let x = 5"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "x = 5",
+                                              "explanation":  "Use = to assign a value.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_02_q2",
+                                              "type":  "fill_blank",
+                                              "questionText":  "Complete the variable name.",
+                                              "codeSnippet":  "___ = 10",
+                                              "options":  null,
+                                              "blanks":  [
+                                                             "score",
+                                                             "10",
+                                                             "="
+                                                         ],
+                                              "correctAnswer":  [
+                                                                    "score"
+                                                                ],
+                                              "explanation":  "Variable name goes on the left side.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_02_q3",
+                                              "type":  "mcq",
+                                              "questionText":  "What is the result of x = 2; y = 3; print(x + y)?",
+                                              "codeSnippet":  null,
+                                              "options":  [
+                                                              "23",
+                                                              "5",
+                                                              "6",
+                                                              "Error"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "5",
+                                              "explanation":  "Adds numeric values 2 and 3.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_02_q4",
+                                              "type":  "arrange_code",
+                                              "questionText":  "Arrange code to store and print age.",
+                                              "codeSnippet":  null,
+                                              "options":  null,
+                                              "blanks":  null,
+                                              "correctAnswer":  [
+                                                                    "age = 18",
+                                                                    "print(age)"
+                                                                ],
+                                              "explanation":  "Assign first, print second.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_02_q5",
+                                              "type":  "mcq",
+                                              "questionText":  "Which variable name is best practice?",
+                                              "codeSnippet":  null,
+                                              "options":  [
+                                                              "user-name",
+                                                              "2score",
+                                                              "user_name",
+                                                              "class"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "user_name",
+                                              "explanation":  "Snake case with letters/underscores is valid.",
+                                              "xpReward":  5
+                                          }
+                                      ],
+                        "slides":  [
+                                       {
+                                           "title":  "Welcome to Variables",
+                                           "body":  "Store and reuse values with variables.",
+                                           "emoji":  "🚀",
+                                           "type":  "intro"
+                                       },
+                                       {
+                                           "title":  "Core Concept",
+                                           "body":  "In this lesson, you will focus on variables and understand how it works in practical code.",
+                                           "emoji":  "🧠",
+                                           "type":  "concept"
+                                       },
+                                       {
+                                           "codeOutput":  "Output depends on input and lesson context.",
+                                           "title":  "See It In Code",
+                                           "body":  "Read this example carefully and notice what each line is doing.",
+                                           "codeSnippet":  "name = \u0027Ada\u0027\nprint(name)",
+                                           "type":  "code_demo"
+                                       },
+                                       {
+                                           "title":  "Think About It This Way",
+                                           "body":  "Relating code to real life makes it easier to remember.",
+                                           "emoji":  "🔗",
+                                           "analogyText":  "variables is like following a simple recipe: do each step in order and you get the expected result.",
+                                           "type":  "analogy"
+                                       },
+                                       {
+                                           "title":  "Common Mistake to Avoid",
+                                           "body":  "Beginners often confuse syntax and logic. Compare the wrong and correct version below.",
+                                           "correctedCode":  "if score == 10:\n    print(\u0027Perfect\u0027)",
+                                           "type":  "common_mistake",
+                                           "mistakeCode":  "if score = 10:\n    print(\u0027Perfect\u0027)"
+                                       },
+                                       {
+                                           "body":  "Choose the best answer to check your understanding.",
+                                           "tryItAnswer":  "0",
+                                           "type":  "try_it",
+                                           "tryItOptions":  [
+                                                                "Use clear syntax and test small steps",
+                                                                "Skip syntax details and guess output",
+                                                                "Ignore errors and continue coding"
+                                                            ],
+                                           "title":  "Try It Yourself",
+                                           "tryItPrompt":  "Which option is most accurate for this lesson on variables?"
+                                       },
+                                       {
+                                           "title":  "Lesson Recap",
+                                           "body":  "Great work. You covered variables, reviewed an example, saw common pitfalls, and practiced with a quick checkpoint.",
+                                           "type":  "summary"
+                                       }
+                                   ]
+                    },
+                    {
+                        "id":  "py_ab_03",
+                        "title":  "Input and Conversion",
+                        "description":  "Read user input and convert types.",
+                        "topicTag":  "input",
+                        "xpReward":  20,
+                        "codeExample":  "age = int(input(\u0027Age: \u0027))\nprint(age + 1)",
+                        "questions":  [
+                                          {
+                                              "id":  "py_ab_03_q1",
+                                              "type":  "mcq",
+                                              "questionText":  "What does input() return?",
+                                              "codeSnippet":  null,
+                                              "options":  [
+                                                              "int",
+                                                              "float",
+                                                              "str",
+                                                              "bool"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "str",
+                                              "explanation":  "input() returns text by default.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_03_q2",
+                                              "type":  "fill_blank",
+                                              "questionText":  "Fill conversion to number.",
+                                              "codeSnippet":  "age = ___(input(\u0027Age: \u0027))",
+                                              "options":  null,
+                                              "blanks":  [
+                                                             "int",
+                                                             "str",
+                                                             "print"
+                                                         ],
+                                              "correctAnswer":  [
+                                                                    "int"
+                                                                ],
+                                              "explanation":  "int() converts text to integer.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_03_q3",
+                                              "type":  "mcq",
+                                              "questionText":  "Which expression adds two numbers from input safely?",
+                                              "codeSnippet":  null,
+                                              "options":  [
+                                                              "input() + input()",
+                                                              "int(input()) + int(input())",
+                                                              "str(input()) + str(input())",
+                                                              "print(input())"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "int(input()) + int(input())",
+                                              "explanation":  "Convert both inputs to int before adding.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_03_q4",
+                                              "type":  "arrange_code",
+                                              "questionText":  "Arrange to read a name and print it.",
+                                              "codeSnippet":  null,
+                                              "options":  null,
+                                              "blanks":  null,
+                                              "correctAnswer":  [
+                                                                    "name = input(\u0027Name: \u0027)",
+                                                                    "print(name)"
+                                                                ],
+                                              "explanation":  "Read first, then output.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_03_q5",
+                                              "type":  "mcq",
+                                              "questionText":  "What happens with int(\u0027abc\u0027)?",
+                                              "codeSnippet":  null,
+                                              "options":  [
+                                                              "Returns 0",
+                                                              "Returns abc",
+                                                              "Raises ValueError",
+                                                              "Converts automatically"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "Raises ValueError",
+                                              "explanation":  "Non-numeric strings cannot become int.",
+                                              "xpReward":  5
+                                          }
+                                      ],
+                        "slides":  [
+                                       {
+                                           "title":  "Welcome to Input and Conversion",
+                                           "body":  "Read user input and convert types.",
+                                           "emoji":  "🚀",
+                                           "type":  "intro"
+                                       },
+                                       {
+                                           "title":  "Core Concept",
+                                           "body":  "In this lesson, you will focus on input and understand how it works in practical code.",
+                                           "emoji":  "🧠",
+                                           "type":  "concept"
+                                       },
+                                       {
+                                           "codeOutput":  "Output depends on input and lesson context.",
+                                           "title":  "See It In Code",
+                                           "body":  "Read this example carefully and notice what each line is doing.",
+                                           "codeSnippet":  "age = int(input(\u0027Age: \u0027))\nprint(age + 1)",
+                                           "type":  "code_demo"
+                                       },
+                                       {
+                                           "title":  "Think About It This Way",
+                                           "body":  "Relating code to real life makes it easier to remember.",
+                                           "emoji":  "🔗",
+                                           "analogyText":  "input is like following a simple recipe: do each step in order and you get the expected result.",
+                                           "type":  "analogy"
+                                       },
+                                       {
+                                           "title":  "Common Mistake to Avoid",
+                                           "body":  "Beginners often confuse syntax and logic. Compare the wrong and correct version below.",
+                                           "correctedCode":  "if score == 10:\n    print(\u0027Perfect\u0027)",
+                                           "type":  "common_mistake",
+                                           "mistakeCode":  "if score = 10:\n    print(\u0027Perfect\u0027)"
+                                       },
+                                       {
+                                           "body":  "Choose the best answer to check your understanding.",
+                                           "tryItAnswer":  "0",
+                                           "type":  "try_it",
+                                           "tryItOptions":  [
+                                                                "Use clear syntax and test small steps",
+                                                                "Skip syntax details and guess output",
+                                                                "Ignore errors and continue coding"
+                                                            ],
+                                           "title":  "Try It Yourself",
+                                           "tryItPrompt":  "Which option is most accurate for this lesson on input?"
+                                       },
+                                       {
+                                           "title":  "Lesson Recap",
+                                           "body":  "Great work. You covered input, reviewed an example, saw common pitfalls, and practiced with a quick checkpoint.",
+                                           "type":  "summary"
+                                       }
+                                   ]
+                    },
+                    {
+                        "id":  "py_ab_04",
+                        "title":  "If Statements",
+                        "description":  "Run code conditionally with if/else.",
+                        "topicTag":  "conditions",
+                        "xpReward":  20,
+                        "codeExample":  "score = 80\nif score \u003e= 50:\n    print(\u0027Pass\u0027)\nelse:\n    print(\u0027Fail\u0027)",
+                        "questions":  [
+                                          {
+                                              "id":  "py_ab_04_q1",
+                                              "type":  "mcq",
+                                              "questionText":  "Which keyword starts a conditional block?",
+                                              "codeSnippet":  null,
+                                              "options":  [
+                                                              "if",
+                                                              "for",
+                                                              "def",
+                                                              "while"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "if",
+                                              "explanation":  "if begins condition-based branching.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_04_q2",
+                                              "type":  "fill_blank",
+                                              "questionText":  "Fill the keyword.",
+                                              "codeSnippet":  "___ x \u003e 5:\n    print(\u0027big\u0027)",
+                                              "options":  null,
+                                              "blanks":  [
+                                                             "if",
+                                                             "for",
+                                                             "while"
+                                                         ],
+                                              "correctAnswer":  [
+                                                                    "if"
+                                                                ],
+                                              "explanation":  "if checks a condition.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_04_q3",
+                                              "type":  "mcq",
+                                              "questionText":  "What symbol pair means greater than or equal?",
+                                              "codeSnippet":  null,
+                                              "options":  [
+                                                              "\u003e=",
+                                                              "=\u003e",
+                                                              "==",
+                                                              "=\u003c"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "\u003e=",
+                                              "explanation":  "\u003e= is the correct comparison operator.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_04_q4",
+                                              "type":  "arrange_code",
+                                              "questionText":  "Arrange if/else structure.",
+                                              "codeSnippet":  null,
+                                              "options":  null,
+                                              "blanks":  null,
+                                              "correctAnswer":  [
+                                                                    "if score \u003e= 50:",
+                                                                    "    print(\u0027Pass\u0027)",
+                                                                    "else:",
+                                                                    "    print(\u0027Fail\u0027)"
+                                                                ],
+                                              "explanation":  "if block first, else block second.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_04_q5",
+                                              "type":  "mcq",
+                                              "questionText":  "Which condition is true when x is 3?",
+                                              "codeSnippet":  null,
+                                              "options":  [
+                                                              "x \u003e 3",
+                                                              "x == 3",
+                                                              "x \u003c 1",
+                                                              "x != 3"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "x == 3",
+                                              "explanation":  "Equality check matches exactly 3.",
+                                              "xpReward":  5
+                                          }
+                                      ],
+                        "slides":  [
+                                       {
+                                           "title":  "Welcome to If Statements",
+                                           "body":  "Run code conditionally with if/else.",
+                                           "emoji":  "🚀",
+                                           "type":  "intro"
+                                       },
+                                       {
+                                           "title":  "Core Concept",
+                                           "body":  "In this lesson, you will focus on conditions and understand how it works in practical code.",
+                                           "emoji":  "🧠",
+                                           "type":  "concept"
+                                       },
+                                       {
+                                           "codeOutput":  "Output depends on input and lesson context.",
+                                           "title":  "See It In Code",
+                                           "body":  "Read this example carefully and notice what each line is doing.",
+                                           "codeSnippet":  "score = 80\nif score \u003e= 50:\n    print(\u0027Pass\u0027)\nelse:\n    print(\u0027Fail\u0027)",
+                                           "type":  "code_demo"
+                                       },
+                                       {
+                                           "title":  "Think About It This Way",
+                                           "body":  "Relating code to real life makes it easier to remember.",
+                                           "emoji":  "🔗",
+                                           "analogyText":  "conditions is like following a simple recipe: do each step in order and you get the expected result.",
+                                           "type":  "analogy"
+                                       },
+                                       {
+                                           "title":  "Common Mistake to Avoid",
+                                           "body":  "Beginners often confuse syntax and logic. Compare the wrong and correct version below.",
+                                           "correctedCode":  "if score == 10:\n    print(\u0027Perfect\u0027)",
+                                           "type":  "common_mistake",
+                                           "mistakeCode":  "if score = 10:\n    print(\u0027Perfect\u0027)"
+                                       },
+                                       {
+                                           "body":  "Choose the best answer to check your understanding.",
+                                           "tryItAnswer":  "0",
+                                           "type":  "try_it",
+                                           "tryItOptions":  [
+                                                                "Use clear syntax and test small steps",
+                                                                "Skip syntax details and guess output",
+                                                                "Ignore errors and continue coding"
+                                                            ],
+                                           "title":  "Try It Yourself",
+                                           "tryItPrompt":  "Which option is most accurate for this lesson on conditions?"
+                                       },
+                                       {
+                                           "title":  "Lesson Recap",
+                                           "body":  "Great work. You covered conditions, reviewed an example, saw common pitfalls, and practiced with a quick checkpoint.",
+                                           "type":  "summary"
+                                       }
+                                   ]
+                    },
+                    {
+                        "id":  "py_ab_05",
+                        "title":  "For Loops",
+                        "description":  "Repeat tasks using for and range.",
+                        "topicTag":  "loops",
+                        "xpReward":  20,
+                        "codeExample":  "for i in range(3):\n    print(i)",
+                        "questions":  [
+                                          {
+                                              "id":  "py_ab_05_q1",
+                                              "type":  "mcq",
+                                              "questionText":  "Which function creates a sequence of numbers?",
+                                              "codeSnippet":  null,
+                                              "options":  [
+                                                              "loop()",
+                                                              "list()",
+                                                              "range()",
+                                                              "seq()"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "range()",
+                                              "explanation":  "range() is used commonly in for loops.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_05_q2",
+                                              "type":  "fill_blank",
+                                              "questionText":  "Complete this loop header.",
+                                              "codeSnippet":  "for i in ___(5):\n    print(i)",
+                                              "options":  null,
+                                              "blanks":  [
+                                                             "range",
+                                                             "print",
+                                                             "input"
+                                                         ],
+                                              "correctAnswer":  [
+                                                                    "range"
+                                                                ],
+                                              "explanation":  "range supplies the iterator values.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_05_q3",
+                                              "type":  "mcq",
+                                              "questionText":  "How many times does range(3) iterate?",
+                                              "codeSnippet":  null,
+                                              "options":  [
+                                                              "2",
+                                                              "3",
+                                                              "4",
+                                                              "0"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "3",
+                                              "explanation":  "Values are 0, 1, 2.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_05_q4",
+                                              "type":  "arrange_code",
+                                              "questionText":  "Arrange to print numbers 0 to 2.",
+                                              "codeSnippet":  null,
+                                              "options":  null,
+                                              "blanks":  null,
+                                              "correctAnswer":  [
+                                                                    "for i in range(3):",
+                                                                    "    print(i)"
+                                                                ],
+                                              "explanation":  "Loop line before loop body.",
+                                              "xpReward":  5
+                                          },
+                                          {
+                                              "id":  "py_ab_05_q5",
+                                              "type":  "mcq",
+                                              "questionText":  "What keyword is used after for to define loop variable?",
+                                              "codeSnippet":  null,
+                                              "options":  [
+                                                              "to",
+                                                              "in",
+                                                              "as",
+                                                              "with"
+                                                          ],
+                                              "blanks":  null,
+                                              "correctAnswer":  "in",
+                                              "explanation":  "for item in sequence is Python syntax.",
+                                              "xpReward":  5
+                                          }
+                                      ],
+                        "slides":  [
+                                       {
+                                           "title":  "Welcome to For Loops",
+                                           "body":  "Repeat tasks using for and range.",
+                                           "emoji":  "🚀",
+                                           "type":  "intro"
+                                       },
+                                       {
+                                           "title":  "Core Concept",
+                                           "body":  "In this lesson, you will focus on loops and understand how it works in practical code.",
+                                           "emoji":  "🧠",
+                                           "type":  "concept"
+                                       },
+                                       {
+                                           "codeOutput":  "Output depends on input and lesson context.",
+                                           "title":  "See It In Code",
+                                           "body":  "Read this example carefully and notice what each line is doing.",
+                                           "codeSnippet":  "for i in range(3):\n    print(i)",
+                                           "type":  "code_demo"
+                                       },
+                                       {
+                                           "title":  "Think About It This Way",
+                                           "body":  "Relating code to real life makes it easier to remember.",
+                                           "emoji":  "🔗",
+                                           "analogyText":  "loops is like following a simple recipe: do each step in order and you get the expected result.",
+                                           "type":  "analogy"
+                                       },
+                                       {
+                                           "title":  "Common Mistake to Avoid",
+                                           "body":  "Beginners often confuse syntax and logic. Compare the wrong and correct version below.",
+                                           "correctedCode":  "if score == 10:\n    print(\u0027Perfect\u0027)",
+                                           "type":  "common_mistake",
+                                           "mistakeCode":  "if score = 10:\n    print(\u0027Perfect\u0027)"
+                                       },
+                                       {
+                                           "body":  "Choose the best answer to check your understanding.",
+                                           "tryItAnswer":  "0",
+                                           "type":  "try_it",
+                                           "tryItOptions":  [
+                                                                "Use clear syntax and test small steps",
+                                                                "Skip syntax details and guess output",
+                                                                "Ignore errors and continue coding"
+                                                            ],
+                                           "title":  "Try It Yourself",
+                                           "tryItPrompt":  "Which option is most accurate for this lesson on loops?"
+                                       },
+                                       {
+                                           "title":  "Lesson Recap",
+                                           "body":  "Great work. You covered loops, reviewed an example, saw common pitfalls, and practiced with a quick checkpoint.",
+                                           "type":  "summary"
+                                       }
+                                   ]
+                    }
+                ]
 }

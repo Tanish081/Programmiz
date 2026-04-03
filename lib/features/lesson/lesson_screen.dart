@@ -2,19 +2,105 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:programming_learn_app/core/constants/app_colors.dart';
-import 'package:programming_learn_app/core/constants/app_text_styles.dart';
+import 'package:programming_learn_app/data/models/lesson_model.dart';
 import 'package:programming_learn_app/features/lesson/lesson_provider.dart';
-import 'package:programming_learn_app/ui/components/duo_bottom_banner.dart';
+import 'package:programming_learn_app/ui/components/duo_progress_bar.dart';
 import 'package:programming_learn_app/ui/components/duo_button.dart';
+import 'package:programming_learn_app/ui/screens/lesson/slide_widgets/slide_renderer.dart';
 
-class LessonScreen extends ConsumerWidget {
+class LessonScreen extends ConsumerStatefulWidget {
   const LessonScreen({super.key, required this.lessonId});
 
   final String lessonId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final lessonAsync = ref.watch(lessonProvider(lessonId));
+  ConsumerState<LessonScreen> createState() => _LessonScreenState();
+}
+
+class _LessonScreenState extends ConsumerState<LessonScreen> {
+  final PageController _pageController = PageController();
+  int _currentIndex = 0;
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _goToPage(int index, int totalSlides) {
+    if (index < 0 || index >= totalSlides) {
+      return;
+    }
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 280),
+      curve: Curves.easeOut,
+    );
+  }
+
+  Widget _buildLegacyLessonFallback(BuildContext context, LessonModel lesson) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: ListView(
+              children: [
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppColors.outline),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(lesson.title, style: Theme.of(context).textTheme.titleLarge),
+                      const SizedBox(height: 8),
+                      Text(
+                        lesson.description,
+                        style: TextStyle(color: Colors.grey.shade800, height: 1.45),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: AppColors.codeBlock,
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: Text(
+                    lesson.codeExample,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Courier New',
+                      fontSize: 13,
+                      height: 1.6,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+          DuoButton(
+            label: 'Start practice quiz',
+            onPressed: () => context.push('/quiz/${lesson.id}'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final lessonAsync = ref.watch(lessonProvider(widget.lessonId));
 
     return Scaffold(
       appBar: AppBar(title: const Text('Guided lesson')),
@@ -26,95 +112,108 @@ class LessonScreen extends ConsumerWidget {
             return const Center(child: Text('Lesson not found'));
           }
 
-          final keyIdeas = _buildKeyIdeas(lesson.description);
+          final slides = lesson.slides ?? const [];
+          if (slides.isEmpty) {
+            return _buildLegacyLessonFallback(context, lesson);
+          }
+
+          if (_currentIndex >= slides.length) {
+            _currentIndex = 0;
+          }
+
+          final progress = slides.length <= 1
+              ? 1.0
+              : (_currentIndex + 1) / slides.length;
+          final isLastSlide = _currentIndex == slides.length - 1;
 
           return Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                DuoProgressBar(value: progress, height: 12),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        lesson.title,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.w800,
+                            ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEFFEDE),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: Text(
+                        '${_currentIndex + 1}/${slides.length}',
+                        style: const TextStyle(
+                          color: AppColors.primaryDark,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
                 Expanded(
-                  child: ListView(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: AppColors.outline),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(lesson.title, style: Theme.of(context).textTheme.titleLarge),
-                            const SizedBox(height: 6),
-                            Text('Level: ${lesson.level} • ${lesson.topicTag}', style: TextStyle(color: Colors.grey.shade700, fontWeight: FontWeight.w600)),
-                            const SizedBox(height: 12),
-                            Text(
-                              'Read this lesson in short chunks. The goal is to understand one idea at a time, not memorize everything at once.',
-                              style: TextStyle(color: Colors.grey.shade800, height: 1.4),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-                      DuoBottomBanner(
-                        title: 'What you will learn',
-                        subtitle: keyIdeas.join(' · '),
-                        icon: const Icon(Icons.auto_awesome_rounded, color: AppColors.primary),
-                      ),
-                      const SizedBox(height: 14),
-                      DuoBottomBanner(
-                        title: 'How to use this lesson',
-                        subtitle: '1. Skim the explanation. 2. Inspect the example. 3. Try the quiz once. 4. Use hints if you need them.',
-                        icon: const Icon(Icons.menu_book_rounded, color: AppColors.secondary),
-                      ),
-                      const SizedBox(height: 14),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: AppColors.codeBlock,
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Example', style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontWeight: FontWeight.w700)),
-                            const SizedBox(height: 10),
-                            Text(lesson.codeExample, style: AppTextStyles.code),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(18),
-                          border: Border.all(color: AppColors.outline),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Beginner friendly tip', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15)),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Look for the pattern, then the purpose. If a line feels confusing, ask what changes before and after it runs.',
-                              style: TextStyle(color: Colors.grey.shade800, height: 1.45),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: AppColors.outline),
+                    ),
+                    child: PageView.builder(
+                      controller: _pageController,
+                      itemCount: slides.length,
+                      onPageChanged: (index) {
+                        setState(() {
+                          _currentIndex = index;
+                        });
+                      },
+                      itemBuilder: (context, index) {
+                        return SlideRenderer(slide: slides[index]);
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 12),
-                DuoButton(
-                  label: 'Start practice quiz',
-                  onPressed: () => context.push('/quiz/${lesson.id}'),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: _currentIndex == 0
+                            ? null
+                            : () => _goToPage(_currentIndex - 1, slides.length),
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(52),
+                          side: BorderSide(color: Colors.grey.shade400),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
+                        child: const Text('Back'),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      flex: 2,
+                      child: DuoButton(
+                        label: isLastSlide ? 'Start practice quiz' : 'Next',
+                        onPressed: () {
+                          if (isLastSlide) {
+                            context.push('/quiz/${lesson.id}');
+                            return;
+                          }
+                          _goToPage(_currentIndex + 1, slides.length);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -122,24 +221,5 @@ class LessonScreen extends ConsumerWidget {
         },
       ),
     );
-  }
-
-  List<String> _buildKeyIdeas(String description) {
-    final lower = description.toLowerCase();
-    final ideas = <String>[];
-
-    if (lower.contains('variable')) ideas.add('Variables');
-    if (lower.contains('loop')) ideas.add('Loops');
-    if (lower.contains('condition')) ideas.add('Conditions');
-    if (lower.contains('function')) ideas.add('Functions');
-    if (lower.contains('list')) ideas.add('Lists');
-
-    if (ideas.isEmpty) {
-      ideas.add('Core idea');
-      ideas.add('Simple example');
-      ideas.add('Practice');
-    }
-
-    return ideas.take(3).toList();
   }
 }

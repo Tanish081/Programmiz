@@ -12,6 +12,7 @@ import 'package:programming_learn_app/features/lesson/lesson_screen.dart';
 import 'package:programming_learn_app/features/progress/progress_screen.dart';
 import 'package:programming_learn_app/features/quiz/quiz_screen.dart';
 import 'package:programming_learn_app/data/services/preferences_service.dart';
+import 'package:programming_learn_app/ui/components/app_scaffold.dart';
 
 class AppRouter {
   static final PreferencesService _preferencesService = PreferencesService();
@@ -38,34 +39,6 @@ class AppRouter {
           builder: (context, state) => const OnboardingScreen(),
         ),
         GoRoute(
-          path: '/home',
-          builder: (context, state) => const LanguageHubScreen(),
-        ),
-        GoRoute(
-          path: '/language-hub',
-          builder: (context, state) => const LanguageHubScreen(),
-        ),
-        GoRoute(
-          path: '/language/:languageId',
-          builder: (context, state) {
-            final languageId = state.pathParameters['languageId'];
-            if (languageId == null || languageId.isEmpty) {
-              return const _RouteErrorScreen(message: 'Missing language id');
-            }
-            return LanguageHubScreen(languageId: languageId);
-          },
-        ),
-        GoRoute(
-          path: '/lesson/:lessonId',
-          builder: (context, state) {
-            final lessonId = state.pathParameters['lessonId'];
-            if (lessonId == null || lessonId.isEmpty) {
-              return const _RouteErrorScreen(message: 'Missing lesson id');
-            }
-            return LessonScreen(lessonId: lessonId);
-          },
-        ),
-        GoRoute(
           path: '/quiz/:lessonId',
           builder: (context, state) {
             final lessonId = state.pathParameters['lessonId'];
@@ -75,17 +48,50 @@ class AppRouter {
             return QuizScreen(lessonId: lessonId);
           },
         ),
-        GoRoute(
-          path: '/progress',
-          builder: (context, state) => const ProgressScreen(),
-        ),
-        GoRoute(
-          path: '/profile',
-          builder: (context, state) => const ProfileScreen(),
-        ),
-        GoRoute(
-          path: '/daily-challenge',
-          builder: (context, state) => const DailyChallengeScreen(),
+        ShellRoute(
+          builder: (context, state, child) => AppScaffold(child: child),
+          routes: [
+            GoRoute(
+              path: '/home',
+              builder: (context, state) => const LanguageHubScreen(),
+            ),
+            GoRoute(
+              path: '/language-hub',
+              builder: (context, state) => const LanguageHubScreen(),
+            ),
+            GoRoute(
+              path: '/language/:languageId',
+              builder: (context, state) {
+                final languageId = state.pathParameters['languageId'];
+                if (languageId == null || languageId.isEmpty) {
+                  return const _RouteErrorScreen(message: 'Missing language id');
+                }
+                return LanguageHubScreen(languageId: languageId);
+              },
+            ),
+            GoRoute(
+              path: '/lesson/:lessonId',
+              builder: (context, state) {
+                final lessonId = state.pathParameters['lessonId'];
+                if (lessonId == null || lessonId.isEmpty) {
+                  return const _RouteErrorScreen(message: 'Missing lesson id');
+                }
+                return LessonScreen(lessonId: lessonId);
+              },
+            ),
+            GoRoute(
+              path: '/progress',
+              builder: (context, state) => const ProgressScreen(),
+            ),
+            GoRoute(
+              path: '/profile',
+              builder: (context, state) => const ProfileScreen(),
+            ),
+            GoRoute(
+              path: '/daily-challenge',
+              builder: (context, state) => const DailyChallengeScreen(),
+            ),
+          ],
         ),
       ],
     );

@@ -1,4 +1,5 @@
 import 'package:programming_learn_app/data/models/question_model.dart';
+import 'package:programming_learn_app/data/models/lesson_slide_model.dart';
 
 class LessonModel {
   final String id;
@@ -9,6 +10,7 @@ class LessonModel {
   final int xpReward;
   final String codeExample;
   final List<QuestionModel> questions;
+  final List<LessonSlide>? slides; // New: interactive slides for enhanced learning
 
   const LessonModel({
     required this.id,
@@ -19,6 +21,7 @@ class LessonModel {
     required this.xpReward,
     required this.codeExample,
     required this.questions,
+    this.slides,
   });
 
   factory LessonModel.fromJson(Map<String, dynamic> json) {
@@ -33,6 +36,9 @@ class LessonModel {
       questions: (json['questions'] as List)
           .map((q) => QuestionModel.fromJson(q as Map<String, dynamic>))
           .toList(),
+      slides: (json['slides'] as List?)
+          ?.map((s) => LessonSlide.fromJson(s as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -46,6 +52,7 @@ class LessonModel {
       'xpReward': xpReward,
       'codeExample': codeExample,
       'questions': questions.map((q) => q.toJson()).toList(),
+      'slides': slides?.map((s) => s.toJson()).toList(),
     };
   }
 }

@@ -4,9 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:programming_learn_app/core/constants/app_colors.dart';
 import 'package:programming_learn_app/core/providers/app_providers.dart';
 import 'package:programming_learn_app/features/onboarding/onboarding_provider.dart';
+import 'package:programming_learn_app/ui/components/app_card.dart';
 import 'package:programming_learn_app/ui/components/duo_bottom_banner.dart';
 import 'package:programming_learn_app/ui/components/duo_button.dart';
 import 'package:programming_learn_app/ui/components/duo_option_card.dart';
+import 'package:programming_learn_app/ui/components/section_header.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
@@ -80,15 +82,29 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: PageView(
-          controller: _pageController,
-          physics: const NeverScrollableScrollPhysics(),
+        child: Stack(
           children: [
-            _welcomePage(placementLabel),
-            _identityPage(state),
-            _learningSetupPage(state),
-            _focusPage(state),
-            _finishPage(state, placementLabel),
+            Positioned(
+              top: -36,
+              right: -24,
+              child: _AccentBlob(color: AppColors.yellow.withValues(alpha: 0.18), size: 150),
+            ),
+            Positioned(
+              bottom: 56,
+              left: -18,
+              child: _AccentBlob(color: AppColors.blue.withValues(alpha: 0.14), size: 120),
+            ),
+            PageView(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                _welcomePage(placementLabel),
+                _identityPage(state),
+                _learningSetupPage(state),
+                _focusPage(state),
+                _finishPage(state, placementLabel),
+              ],
+            ),
           ],
         ),
       ),
@@ -134,7 +150,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             ],
           ),
           const SizedBox(height: 18),
-          Expanded(child: child),
+          Expanded(
+            child: SingleChildScrollView(
+              child: child,
+            ),
+          ),
           const SizedBox(height: 12),
           DuoButton(label: buttonLabel, onPressed: onPressed),
         ],
@@ -175,10 +195,13 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             style: TextStyle(fontSize: 15, color: Colors.grey.shade700, height: 1.4),
           ),
           const SizedBox(height: 18),
-          DuoBottomBanner(
-            title: 'Today is all about momentum',
-            subtitle: 'Keep the sessions short, collect XP, and protect your streak. Start small and stay consistent.',
-            icon: const Icon(Icons.local_fire_department_rounded, color: AppColors.primary),
+          AppCard(
+            padding: const EdgeInsets.all(18),
+            child: DuoBottomBanner(
+              title: 'Today is all about momentum',
+              subtitle: 'Keep the sessions short, collect XP, and protect your streak. Start small and stay consistent.',
+              icon: const Icon(Icons.local_fire_department_rounded, color: AppColors.primary),
+            ),
           ),
         ],
       ),
@@ -193,47 +216,51 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Make it feel like yours', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900)),
-          const SizedBox(height: 8),
-          Text('Pick a name and avatar so the app can greet you properly.', style: TextStyle(fontSize: 14, color: Colors.grey.shade700)),
+          const SectionHeader(
+            title: 'Make it feel like yours',
+            subtitle: 'Pick a name and avatar so the app can greet you properly.',
+          ),
           const SizedBox(height: 18),
-          TextField(
-            key: const ValueKey('onboarding_name_input'),
-            onChanged: ref.read(onboardingProvider.notifier).setName,
-            decoration: InputDecoration(
-              labelText: 'Your name',
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide(color: AppColors.outline)),
-              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide(color: AppColors.outline)),
-              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: const BorderSide(color: AppColors.primary, width: 2)),
+          AppCard(
+            padding: const EdgeInsets.all(16),
+            child: TextField(
+              key: const ValueKey('onboarding_name_input'),
+              onChanged: ref.read(onboardingProvider.notifier).setName,
+              decoration: InputDecoration(
+                labelText: 'Your name',
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide(color: AppColors.outline)),
+                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide(color: AppColors.outline)),
+                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: const BorderSide(color: AppColors.primary, width: 2)),
+              ),
             ),
           ),
           const SizedBox(height: 18),
-          Expanded(
-            child: GridView.builder(
-              itemCount: _avatars.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-              ),
-              itemBuilder: (context, index) {
-                final avatarId = 'avatar_${index + 1}';
-                final selected = state.avatarId == avatarId;
-                return DuoOptionCard(
-                  title: _avatars[index],
-                  subtitle: selected ? 'Selected' : 'Tap to choose',
-                  selected: selected,
-                  onTap: () => ref.read(onboardingProvider.notifier).selectAvatar(avatarId),
-                  leading: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: selected ? AppColors.primary.withValues(alpha: 0.14) : AppColors.surfaceTint,
-                    child: Text(_avatars[index], style: const TextStyle(fontSize: 24)),
-                  ),
-                );
-              },
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: _avatars.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
             ),
+            itemBuilder: (context, index) {
+              final avatarId = 'avatar_${index + 1}';
+              final selected = state.avatarId == avatarId;
+              return DuoOptionCard(
+                title: _avatars[index],
+                subtitle: selected ? 'Selected' : 'Tap to choose',
+                selected: selected,
+                onTap: () => ref.read(onboardingProvider.notifier).selectAvatar(avatarId),
+                leading: CircleAvatar(
+                  radius: 20,
+                  backgroundColor: selected ? AppColors.primary.withValues(alpha: 0.14) : AppColors.surfaceTint,
+                  child: Text(_avatars[index], style: const TextStyle(fontSize: 24)),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -258,9 +285,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Set the right pace', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900)),
-            const SizedBox(height: 8),
-            Text('We will tailor the path, but you are always free to move faster or slower.', style: TextStyle(fontSize: 14, color: Colors.grey.shade700)),
+            const SectionHeader(
+              title: 'Set the right pace',
+              subtitle: 'We will tailor the path, but you are always free to move faster or slower.',
+            ),
             const SizedBox(height: 18),
             const Text('Age range', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
             const SizedBox(height: 10),
@@ -329,9 +357,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Choose a rhythm', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900)),
-            const SizedBox(height: 8),
-            Text('A small daily target is enough. We are optimizing for consistency, not pressure.', style: TextStyle(fontSize: 14, color: Colors.grey.shade700)),
+            const SectionHeader(
+              title: 'Choose a rhythm',
+              subtitle: 'A small daily target is enough. We are optimizing for consistency, not pressure.',
+            ),
             const SizedBox(height: 18),
             const Text('Daily goal', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
             const SizedBox(height: 10),
@@ -396,16 +425,38 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
           ),
           const SizedBox(height: 18),
-          DuoBottomBanner(
-            title: 'Your setup',
-            subtitle: summary,
-            icon: const Icon(Icons.check_circle_rounded, color: AppColors.primary),
+          AppCard(
+            padding: const EdgeInsets.all(18),
+            child: DuoBottomBanner(
+              title: 'Your setup',
+              subtitle: summary,
+              icon: const Icon(Icons.check_circle_rounded, color: AppColors.primary),
+            ),
           ),
           if (state.isSaving) ...[
             const SizedBox(height: 18),
             const CircularProgressIndicator(),
           ],
         ],
+      ),
+    );
+  }
+}
+
+class _AccentBlob extends StatelessWidget {
+  const _AccentBlob({required this.color, required this.size});
+
+  final Color color;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: color,
+        shape: BoxShape.circle,
       ),
     );
   }

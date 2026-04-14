@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:programming_learn_app/core/constants/app_colors.dart';
+import 'package:programming_learn_app/core/utils/hive_boxes.dart';
+import 'package:programming_learn_app/data/models/certificate_model.dart';
 import 'package:programming_learn_app/features/profile/profile_provider.dart';
 import 'package:programming_learn_app/features/profile/widgets/edit_profile_bottom_sheet.dart';
+import 'package:programming_learn_app/ui/components/app_card.dart';
+import 'package:programming_learn_app/ui/components/section_header.dart';
 import 'package:programming_learn_app/ui/components/streak_heatmap_widget.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -89,12 +94,118 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   const SizedBox(height: 14),
                   _activitySection(state),
                   const SizedBox(height: 14),
+                  _certificatesSection(),
+                  const SizedBox(height: 14),
                   _lessonsByLevelSection(state),
                   const SizedBox(height: 14),
                   _achievementsSection(state),
+                  const SizedBox(height: 14),
+                  _leaderboardSection(),
                 ],
               ),
             ),
+    );
+  }
+
+  Widget _certificatesSection() {
+    List<CertificateModel> certs;
+    try {
+      certs = Hive.box<CertificateModel>(HiveBoxes.certificate).values.toList();
+    } catch (_) {
+      certs = const [];
+    }
+
+    return AppCard(
+      padding: const EdgeInsets.all(14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const SectionHeader(title: 'My certificates', subtitle: 'Your earned certificates live here.', compact: true),
+              const Spacer(),
+              TextButton(
+                onPressed: () => context.push('/certificates'),
+                child: const Text('See All →'),
+              ),
+            ],
+          ),
+          if (certs.isEmpty)
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(12)),
+              child: const Text('Complete courses to earn certificates'),
+            )
+          else
+            SizedBox(
+              height: 110,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: certs.length,
+                separatorBuilder: (context, index) => const SizedBox(width: 8),
+                itemBuilder: (context, index) {
+                  final cert = certs[index];
+                  return Container(
+                    width: 210,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEFFEDE),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppColors.primary.withValues(alpha: 0.4)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('🏆', style: TextStyle(fontSize: 22)),
+                        const SizedBox(height: 6),
+                        Text(cert.title, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w800)),
+                        const Spacer(),
+                        Text(cert.level, style: TextStyle(fontSize: 12, color: Colors.grey.shade700)),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _leaderboardSection() {
+    return AppCard(
+      padding: const EdgeInsets.all(14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SectionHeader(title: 'Leaderboard', subtitle: 'See where you stand against the pack.', compact: true),
+          const SizedBox(height: 8),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('1. Alex — 1450 XP', style: TextStyle(fontWeight: FontWeight.w700)),
+                SizedBox(height: 4),
+                Text('2. Maya — 1320 XP', style: TextStyle(fontWeight: FontWeight.w700)),
+                SizedBox(height: 4),
+                Text('3. You — Keep climbing 🚀', style: TextStyle(fontWeight: FontWeight.w700)),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          TextButton(
+            onPressed: () => context.push('/leaderboard'),
+            child: const Text('See Full Leaderboard →'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -103,13 +214,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final name = profile?.name ?? 'Learner';
     final level = _levelLabel(profile?.experienceLevel ?? 'absolute_beginner');
 
-    return Container(
-      width: double.infinity,
+    return AppCard(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(colors: [Color(0xFF58CC02), Color(0xFF2E9A00)]),
-        borderRadius: BorderRadius.circular(20),
-      ),
+      gradient: const LinearGradient(colors: [Color(0xFF58CC02), Color(0xFF2E9A00)]),
       child: Column(
         children: [
           CircleAvatar(
@@ -151,13 +258,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   Widget _statsGrid(ProfileState state) {
     Widget tile(String label, String value, {Color? color}) {
-      return Container(
+      return AppCard(
         padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.outline),
-        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -188,20 +290,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   }
 
   Widget _activitySection(ProfileState state) {
-    return Container(
-      width: double.infinity,
+    return AppCard(
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.outline),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Activity Heatmap', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
-          const SizedBox(height: 4),
-          Text('Your last 12 months of coding activity.', style: TextStyle(color: Colors.grey.shade700, fontSize: 12)),
+          const SectionHeader(title: 'Activity Heatmap', subtitle: 'Your last 12 months of coding activity.', compact: true),
           const SizedBox(height: 8),
           const StreakHeatmapWidget(),
         ],
@@ -210,29 +304,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   }
 
   Widget _achievementsSection(ProfileState state) {
-    return Container(
-      width: double.infinity,
+    return AppCard(
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.outline),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Achievements', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+          const SectionHeader(title: 'Achievements', subtitle: 'Unlocked milestones and badges.', compact: true),
           const SizedBox(height: 8),
           ...state.achievements.map((achievement) {
             final unlocked = achievement.unlocked;
             return Container(
               margin: const EdgeInsets.only(bottom: 8),
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
+              child: AppCard(
+                padding: const EdgeInsets.all(10),
                 color: unlocked ? const Color(0xFFEFFEDE) : Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: unlocked ? AppColors.primary : Colors.grey.shade300),
-              ),
+                borderColor: unlocked ? AppColors.primary : Colors.grey.shade300,
               child: Row(
                 children: [
                   Text(achievement.icon, style: const TextStyle(fontSize: 24)),
@@ -250,6 +336,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   Icon(unlocked ? Icons.lock_open_rounded : Icons.lock_outline_rounded, color: unlocked ? AppColors.primaryDark : Colors.grey),
                 ],
               ),
+              ),
             );
           }),
         ],
@@ -260,18 +347,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Widget _lessonsByLevelSection(ProfileState state) {
     final levels = ['absolute_beginner', 'beginner', 'intermediate'];
 
-    return Container(
-      width: double.infinity,
+    return AppCard(
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.outline),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Lesson Progress by Level', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+          const SectionHeader(title: 'Lesson progress by level', subtitle: 'See how far each level has progressed.', compact: true),
           const SizedBox(height: 8),
           ...levels.map((level) {
             final lessons = state.lessonsByLevel[level] ?? const [];

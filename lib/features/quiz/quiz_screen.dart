@@ -9,8 +9,11 @@ import 'package:programming_learn_app/features/quiz/widgets/arrange_code_widget.
 import 'package:programming_learn_app/features/quiz/widgets/fill_blank_widget.dart';
 import 'package:programming_learn_app/features/quiz/widgets/fix_the_bug_widget.dart';
 import 'package:programming_learn_app/features/quiz/widgets/mcq_widget.dart';
+import 'package:programming_learn_app/ui/components/app_card.dart';
 import 'package:programming_learn_app/ui/components/hearts_refill_banner.dart';
 import 'package:programming_learn_app/ui/components/mascot_widget.dart';
+import 'package:programming_learn_app/ui/components/section_header.dart';
+import 'package:programming_learn_app/ui/components/duo_button.dart';
 
 class QuizScreen extends ConsumerStatefulWidget {
   const QuizScreen({super.key, required this.lessonId});
@@ -91,47 +94,45 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           builder: (context) {
             return Padding(
               padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (state.reachedDailyGoal)
-                    ConfettiWidget(
-                      confettiController: _confettiController,
-                      shouldLoop: false,
-                      blastDirectionality: BlastDirectionality.explosive,
+              child: AppCard(
+                padding: const EdgeInsets.all(18),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (state.reachedDailyGoal)
+                      ConfettiWidget(
+                        confettiController: _confettiController,
+                        shouldLoop: false,
+                        blastDirectionality: BlastDirectionality.explosive,
+                      ),
+                    SectionHeader(
+                      title: state.failed ? 'Quiz failed' : 'Quiz complete',
+                      subtitle: 'Score: ${state.correctCount}/${state.totalQuestions} · XP earned: ${state.earnedXp}',
+                      compact: true,
                     ),
-                  Text(state.failed ? 'Quiz Failed' : 'Quiz Complete', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
-                  const SizedBox(height: 8),
-                  Text('Score: ${state.correctCount}/${state.totalQuestions}'),
-                  Text('XP earned: ${state.earnedXp}'),
-                  if (state.reachedDailyGoal) ...[
+                    if (state.reachedDailyGoal) ...[
+                      const SizedBox(height: 12),
+                      AppCard.success(
+                        padding: const EdgeInsets.all(12),
+                        child: const Column(
+                          children: [
+                            Text('🔥 Daily Goal Complete!', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+                            SizedBox(height: 4),
+                            Text('Come back tomorrow to keep your streak alive!', textAlign: TextAlign.center),
+                          ],
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 12),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.green.shade50,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.green.shade300),
-                      ),
-                      child: const Column(
-                        children: [
-                          Text('🔥 Daily Goal Complete!', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
-                          SizedBox(height: 4),
-                          Text('Come back tomorrow to keep your streak alive!', textAlign: TextAlign.center),
-                        ],
-                      ),
+                    DuoButton(
+                      label: 'Continue',
+                      onPressed: () {
+                        Navigator.pop(context);
+                        context.go('/home');
+                      },
                     ),
                   ],
-                  const SizedBox(height: 12),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      context.go('/home');
-                    },
-                    child: const Text('Continue'),
-                  ),
-                ],
+                ),
               ),
             );
           },
@@ -160,23 +161,26 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: double.infinity,
+            AppCard(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.blue.shade50,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.blue.shade200),
-              ),
+              color: Colors.blue.shade50,
+              borderColor: Colors.blue.shade200,
               child: const Text(
                 'Beginner mode: your first wrong attempt gives a hint and does not cost a life.',
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
             const SizedBox(height: 10),
-            LinearProgressIndicator(value: progress),
+            AppCard(
+              padding: const EdgeInsets.all(0),
+              child: LinearProgressIndicator(value: progress, minHeight: 10),
+            ),
             const SizedBox(height: 8),
-            Text('Question ${state.currentIndex + 1} of ${state.totalQuestions}'),
+            SectionHeader(
+              title: 'Question ${state.currentIndex + 1} of ${state.totalQuestions}',
+              subtitle: 'Keep going. One correct answer at a time.',
+              compact: true,
+            ),
             const SizedBox(height: 10),
             Row(
               children: List.generate(5, (i) {
@@ -218,30 +222,20 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                 label: Text(_showManualHint ? 'Hide hint' : 'Need a hint?'),
               ),
             if (!state.hasAnswered && _showManualHint)
-              Container(
-                width: double.infinity,
-                margin: const EdgeInsets.only(bottom: 8),
+              AppCard(
                 padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.amber.shade50,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.amber.shade300),
-                ),
+                color: Colors.amber.shade50,
+                borderColor: Colors.amber.shade300,
                 child: Text(
                   q.explanation,
                   style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
               ),
             if (!state.hasAnswered && state.wasCorrect == false && (state.explanation?.startsWith('Hint:') ?? false))
-              Container(
-                width: double.infinity,
-                margin: const EdgeInsets.only(bottom: 8),
+              AppCard(
                 padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.orange.shade50,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.orange.shade300),
-                ),
+                color: Colors.orange.shade50,
+                borderColor: Colors.orange.shade300,
                 child: Text(
                   state.explanation!,
                   style: const TextStyle(fontWeight: FontWeight.w600),
@@ -251,12 +245,9 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
               const SizedBox(height: 8),
               Text(state.explanation ?? ''),
               const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => ref.read(quizProvider.notifier).next(),
-                  child: const Text('Next'),
-                ),
+              DuoButton(
+                label: 'Next',
+                onPressed: () => ref.read(quizProvider.notifier).next(),
               ),
             ],
           ],

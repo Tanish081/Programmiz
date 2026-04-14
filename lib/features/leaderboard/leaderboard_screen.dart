@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:programming_learn_app/features/leaderboard/leaderboard_provider.dart';
+import 'package:programming_learn_app/ui/components/app_card.dart';
+import 'package:programming_learn_app/ui/components/section_header.dart';
 
 class LeaderboardScreen extends ConsumerStatefulWidget {
   const LeaderboardScreen({super.key});
@@ -25,23 +28,14 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
     final notifier = ref.read(leaderboardProvider.notifier);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF8FEEA),
       body: Column(
         children: [
-          // Header
-          Container(
-            color: Colors.white,
+          Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                const Text(
-                  'Leaderboard',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
+                const SectionHeader(title: 'Leaderboard', subtitle: 'Weekly and all-time rankings.', compact: true),
                 const Spacer(),
                 Text(
                   _getCurrentWeekLabel(),
@@ -53,8 +47,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
               ],
             ),
           ),
-          // Tab selector
-          Container(
+          AppCard(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
@@ -139,7 +132,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 24),
                       child: _buildPodium(leaderboardState.rankedList),
-                    ),
+                    ).animate().fadeIn(duration: 350.ms).slideY(begin: -0.08, end: 0),
                   if (leaderboardState.rankedList.isNotEmpty)
                     Divider(
                       height: 1,
@@ -162,13 +155,9 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
                   if (leaderboardState.userRank > 1)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Container(
-                        width: double.infinity,
+                      child: AppCard(
                         padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFFF8E1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+                        color: const Color(0xFFFFF8E1),
                         child: Text(
                           leaderboardState.userRank <= 5
                               ? '💪 Earn ${_getXPToNextRank(leaderboardState)} more XP to pass ${_getNameAbove(leaderboardState)}!'
@@ -185,13 +174,9 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
                   else
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Container(
-                        width: double.infinity,
+                      child: AppCard(
                         padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFD7FFB8),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+                        color: const Color(0xFFD7FFB8),
                         child: const Text(
                           '🏆 You\'re #1 this week! Keep it up!',
                           style: TextStyle(
@@ -220,7 +205,9 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
     if (rankedList.length > 1) podiumList.add(rankedList[1]); // 2nd
     if (rankedList.length > 2) podiumList.add(rankedList[2]); // 3rd
 
-    return Row(
+    return AppCard(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 18),
+      child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -322,6 +309,7 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
           ],
         ),
       ],
+      ),
     );
   }
 
@@ -331,15 +319,12 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
         isUser ? const Color(0xFFD7FFB8) : Colors.transparent;
     final borderColor = isUser ? const Color(0xFF58CC02) : Colors.transparent;
 
-    return Container(
-      margin:
-          isUser ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8) : EdgeInsets.zero,
+    return Padding(
+      padding: isUser ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8) : EdgeInsets.zero,
+      child: AppCard(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        border: Border.all(color: borderColor, width: isUser ? 2 : 0),
-        borderRadius: BorderRadius.circular(12),
-      ),
+      color: backgroundColor,
+      borderColor: isUser ? borderColor : Colors.transparent,
       child: Row(
         children: [
           Text(
@@ -412,7 +397,8 @@ class _LeaderboardScreenState extends ConsumerState<LeaderboardScreen> {
           ),
         ],
       ),
-    );
+      ),
+    ).animate(delay: Duration(milliseconds: (entry.rank as int) * 25)).fadeIn(duration: 260.ms).slideX(begin: 0.04, end: 0);
   }
 
   String _getCurrentWeekLabel() {

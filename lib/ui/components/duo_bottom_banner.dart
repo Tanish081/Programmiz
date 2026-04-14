@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:programming_learn_app/core/constants/app_colors.dart';
+import 'package:programming_learn_app/core/constants/app_text_styles.dart';
+import 'package:programming_learn_app/ui/components/app_card.dart';
+import 'package:programming_learn_app/ui/components/duo_button.dart';
 
 class DuoBottomBanner extends StatelessWidget {
   const DuoBottomBanner({
@@ -23,14 +26,10 @@ class DuoBottomBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     final fillColor = backgroundColor ?? AppColors.surface;
 
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: fillColor,
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: AppColors.outline),
-      ),
+    return AppCard.colored(
+      color: fillColor,
+      borderColor: AppColors.kGrayLight,
+      shadowColor: AppColors.kGrayLight,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -42,17 +41,19 @@ class DuoBottomBanner extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                Text(title, style: AppTextStyles.kH4),
                 const SizedBox(height: 4),
-                Text(subtitle, style: TextStyle(fontSize: 13, color: Colors.grey.shade700, height: 1.4)),
+                Text(subtitle, style: AppTextStyles.kBodySm),
               ],
             ),
           ),
           if (actionLabel != null && onAction != null) ...[
             const SizedBox(width: 12),
-            TextButton(
+            DuoButton(
+              label: actionLabel!,
               onPressed: onAction,
-              child: Text(actionLabel!, style: const TextStyle(fontWeight: FontWeight.w800)),
+              style: DuoButtonStyle.ghost,
+              size: DuoButtonSize.small,
             ),
           ],
         ],

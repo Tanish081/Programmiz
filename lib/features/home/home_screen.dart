@@ -11,6 +11,8 @@ import 'package:programming_learn_app/features/home/widgets/lesson_card.dart';
 import 'package:programming_learn_app/features/home/widgets/streak_badge.dart';
 import 'package:programming_learn_app/features/home/widgets/xp_bar.dart';
 import 'package:programming_learn_app/features/progress/progress_screen.dart';
+import 'package:programming_learn_app/ui/components/app_card.dart';
+import 'package:programming_learn_app/ui/components/section_header.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -107,87 +109,74 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               : Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
+                        child: AppCard(
+                          padding: const EdgeInsets.all(14),
                           gradient: LinearGradient(
                             colors: [Colors.indigo.shade500, Colors.blue.shade500],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Hey, ${state.userName}! 👋',
-                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Colors.white),
-                              ),
-                            ),
-                            Text(
-                              '${state.todayXP} / ${state.dailyGoalXP} XP today',
-                              style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    if (state.todayXP >= state.dailyGoalXP)
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.green.shade50,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.green.shade300),
-                          ),
-                          child: const Row(
+                          child: Row(
                             children: [
-                              Text('🔥', style: TextStyle(fontSize: 20)),
-                              SizedBox(width: 8),
                               Expanded(
                                 child: Text(
-                                  'Daily goal completed! Come back tomorrow and protect your streak.',
-                                  style: TextStyle(fontWeight: FontWeight.w700),
+                                  'Hey, ${state.userName}! 👋',
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Colors.white),
                                 ),
+                              ),
+                              Text(
+                                '${state.todayXP} / ${state.dailyGoalXP} XP today',
+                                style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.white),
                               ),
                             ],
                           ),
                         ),
+                    ),
+                    if (state.todayXP >= state.dailyGoalXP)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+                          child: AppCard(
+                            padding: const EdgeInsets.all(12),
+                            child: const Row(
+                              children: [
+                                Text('🔥', style: TextStyle(fontSize: 20)),
+                                SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    'Daily goal completed! Come back tomorrow and protect your streak.',
+                                    style: TextStyle(fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ],
+                            ),
+                        ),
                       ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(12, 4, 12, 8),
-                      child: XpBar(totalXP: state.totalXP),
+                        padding: const EdgeInsets.fromLTRB(12, 4, 12, 8),
+                        child: AppCard(
+                          padding: const EdgeInsets.all(12),
+                          child: XpBar(totalXP: state.totalXP),
+                        ),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.orange.shade50,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.orange.shade200),
-                        ),
-                        child: Row(
-                          children: [
-                            const Expanded(
-                              child: Text(
-                                'What do you want to learn today?',
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                        child: AppCard(
+                          padding: const EdgeInsets.all(12),
+                          child: Row(
+                            children: [
+                              const Expanded(
+                                child: Text(
+                                  'What do you want to learn today?',
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                                ),
                               ),
-                            ),
-                            TextButton(
-                              onPressed: () => context.push('/language/python'),
-                              child: const Text('Choose'),
-                            ),
-                          ],
-                        ),
+                              TextButton(
+                                onPressed: () => context.push('/language/python'),
+                                child: const Text('Choose'),
+                              ),
+                            ],
+                          ),
                       ),
                     ),
                     Padding(

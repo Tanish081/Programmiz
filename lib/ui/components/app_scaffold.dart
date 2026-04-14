@@ -19,12 +19,20 @@ class AppScaffold extends StatefulWidget {
 
 class _AppScaffoldState extends State<AppScaffold> {
   int _indexForLocation(String location) {
-    if (location == '/daily-challenge') {
+    if (location.startsWith('/roadmap/')) {
       return 1;
     }
 
-    if (location == '/profile' || location == '/progress') {
+    if (location == '/daily-challenge') {
       return 2;
+    }
+
+    if (location == '/interview' || location == '/interview-session') {
+      return 3;
+    }
+
+    if (location == '/profile' || location == '/progress') {
+      return 4;
     }
 
     if (location == '/language-hub' ||
@@ -42,9 +50,15 @@ class _AppScaffoldState extends State<AppScaffold> {
         context.go('/language-hub');
         return;
       case 1:
-        context.go('/daily-challenge');
+        context.go('/roadmap/python');
         return;
       case 2:
+        context.go('/daily-challenge');
+        return;
+      case 3:
+        context.go('/interview');
+        return;
+      case 4:
         context.go('/profile');
         return;
     }
@@ -91,8 +105,16 @@ class _AppScaffoldState extends State<AppScaffold> {
                       label: 'Languages',
                     ),
                     BottomNavigationBarItem(
+                      icon: Text('🗺️', style: TextStyle(fontSize: 20)),
+                      label: 'Roadmap',
+                    ),
+                    BottomNavigationBarItem(
                       icon: Text('📅', style: TextStyle(fontSize: 20)),
                       label: 'Challenge',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Text('🎯', style: TextStyle(fontSize: 20)),
+                      label: 'Interview',
                     ),
                     BottomNavigationBarItem(
                       icon: Text('👤', style: TextStyle(fontSize: 20)),

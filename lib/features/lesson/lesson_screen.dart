@@ -4,8 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:programming_learn_app/core/constants/app_colors.dart';
 import 'package:programming_learn_app/data/models/lesson_model.dart';
 import 'package:programming_learn_app/features/lesson/lesson_provider.dart';
+import 'package:programming_learn_app/ui/components/app_card.dart';
 import 'package:programming_learn_app/ui/components/duo_progress_bar.dart';
 import 'package:programming_learn_app/ui/components/duo_button.dart';
+import 'package:programming_learn_app/ui/components/section_header.dart';
 import 'package:programming_learn_app/ui/screens/lesson/slide_widgets/slide_renderer.dart';
 
 class LessonScreen extends ConsumerStatefulWidget {
@@ -130,16 +132,18 @@ class _LessonScreenState extends ConsumerState<LessonScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                DuoProgressBar(value: progress, height: 12),
+                AppCard(
+                  padding: const EdgeInsets.all(14),
+                  child: DuoProgressBar(value: progress, height: 12),
+                ),
                 const SizedBox(height: 10),
                 Row(
                   children: [
                     Expanded(
-                      child: Text(
-                        lesson.title,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w800,
-                            ),
+                      child: SectionHeader(
+                        title: lesson.title,
+                        subtitle: lesson.description,
+                        compact: true,
                       ),
                     ),
                     Container(
@@ -160,13 +164,9 @@ class _LessonScreenState extends ConsumerState<LessonScreen> {
                 ),
                 const SizedBox(height: 12),
                 Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(18),
-                      border: Border.all(color: AppColors.outline),
-                    ),
+                  child: AppCard(
+                    padding: EdgeInsets.zero,
+                    radius: 18,
                     child: PageView.builder(
                       controller: _pageController,
                       itemCount: slides.length,
@@ -185,18 +185,10 @@ class _LessonScreenState extends ConsumerState<LessonScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: OutlinedButton(
-                        onPressed: _currentIndex == 0
-                            ? null
-                            : () => _goToPage(_currentIndex - 1, slides.length),
-                        style: OutlinedButton.styleFrom(
-                          minimumSize: const Size.fromHeight(52),
-                          side: BorderSide(color: Colors.grey.shade400),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                        ),
-                        child: const Text('Back'),
+                      child: DuoButton(
+                        label: 'Back',
+                        onPressed: _currentIndex == 0 ? null : () => _goToPage(_currentIndex - 1, slides.length),
+                        isPrimary: false,
                       ),
                     ),
                     const SizedBox(width: 10),

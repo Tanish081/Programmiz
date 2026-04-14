@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:programming_learn_app/core/services/certificate_service.dart';
 import 'package:programming_learn_app/core/providers/app_providers.dart';
 import 'package:programming_learn_app/data/models/lesson_model.dart';
 import 'package:programming_learn_app/data/models/question_model.dart';
@@ -287,6 +288,10 @@ class QuizNotifier extends StateNotifier<QuizState> {
     // Save pending XP animation data
     await prefs.setPendingXPAnimation(state.earnedXp);
     await prefs.setPendingLessonCompleted(state.lesson!.title);
+
+    if (profile != null) {
+      await CertificateService().checkAndIssueCertificates(profile);
+    }
 
     _ref.invalidate(homeProvider);
   }

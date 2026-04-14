@@ -3,16 +3,23 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:programming_learn_app/features/daily_challenge/daily_challenge_screen.dart';
+import 'package:programming_learn_app/features/interview/interview_hub_screen.dart';
+import 'package:programming_learn_app/features/interview/interview_session_screen.dart';
 import 'package:programming_learn_app/features/language_hub/language_hub_screen.dart';
+import 'package:programming_learn_app/features/leaderboard/leaderboard_screen.dart';
 import 'package:programming_learn_app/features/onboarding/onboarding_screen.dart';
 import 'package:programming_learn_app/features/placement_quiz/placement_quiz_screen.dart';
 import 'package:programming_learn_app/features/profile/profile_screen.dart';
+import 'package:programming_learn_app/features/roadmap/roadmap_screen.dart';
+import 'package:programming_learn_app/features/skill_domains/skill_domain_roadmap_screen.dart';
+import 'package:programming_learn_app/features/skill_domains/skill_domains_screen.dart';
 import 'package:programming_learn_app/features/splash/splash_screen.dart';
 import 'package:programming_learn_app/features/lesson/lesson_screen.dart';
 import 'package:programming_learn_app/features/lesson/lesson_notes_screen.dart';
 import 'package:programming_learn_app/features/progress/progress_screen.dart';
 import 'package:programming_learn_app/features/quiz/quiz_screen.dart';
 import 'package:programming_learn_app/features/quiz/quiz_results_screen.dart';
+import 'package:programming_learn_app/features/certificates/certificates_screen.dart';
 import 'package:programming_learn_app/data/models/quiz_result_data.dart';
 import 'package:programming_learn_app/data/services/preferences_service.dart';
 import 'package:programming_learn_app/ui/components/app_scaffold.dart';
@@ -59,6 +66,22 @@ class AppRouter {
               return const _RouteErrorScreen(message: 'Missing quiz result data');
             }
             return QuizResultsScreen(data: data);
+          },
+        ),
+        GoRoute(
+          path: '/interview-session',
+          builder: (context, state) {
+            final data = state.extra as Map<String, dynamic>?;
+            if (data == null) {
+              return const _RouteErrorScreen(message: 'Missing interview config');
+            }
+
+            return InterviewSessionScreen(
+              topic: data['topic']?.toString() ?? 'Python Basics',
+              difficulty: data['difficulty']?.toString() ?? 'medium',
+              type: data['type']?.toString() ?? 'mixed',
+              count: (data['count'] as int?) ?? 10,
+            );
           },
         ),
         ShellRoute(
@@ -113,6 +136,39 @@ class AppRouter {
             GoRoute(
               path: '/daily-challenge',
               builder: (context, state) => const DailyChallengeScreen(),
+            ),
+            GoRoute(
+              path: '/roadmap/:language',
+              builder: (context, state) {
+                final language = state.pathParameters['language'] ?? 'python';
+                return RoadmapScreen(language: language);
+              },
+            ),
+            GoRoute(
+              path: '/interview',
+              builder: (context, state) => const InterviewHubScreen(),
+            ),
+            GoRoute(
+              path: '/skill-domains',
+              builder: (context, state) => const SkillDomainsScreen(),
+            ),
+            GoRoute(
+              path: '/skill-domain-roadmap/:domainId',
+              builder: (context, state) {
+                final domainId = state.pathParameters['domainId'];
+                if (domainId == null || domainId.isEmpty) {
+                  return const _RouteErrorScreen(message: 'Missing domain id');
+                }
+                return SkillDomainRoadmapScreen(domainId: domainId);
+              },
+            ),
+            GoRoute(
+              path: '/certificates',
+              builder: (context, state) => const CertificatesScreen(),
+            ),
+            GoRoute(
+              path: '/leaderboard',
+              builder: (context, state) => const LeaderboardScreen(),
             ),
           ],
         ),

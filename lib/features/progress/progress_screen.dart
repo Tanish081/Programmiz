@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:programming_learn_app/core/constants/app_colors.dart';
 import 'package:programming_learn_app/features/progress/progress_provider.dart';
+import 'package:programming_learn_app/ui/components/app_card.dart';
 
 class ProgressScreen extends ConsumerStatefulWidget {
   const ProgressScreen({super.key, this.embedded = false});
@@ -69,14 +70,10 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
     );
   }
 
-  Widget _cardShell({required Widget child, EdgeInsetsGeometry padding = const EdgeInsets.all(20), double radius = 20}) {
-    return Container(
-      width: double.infinity,
+  Widget _cardShell({required Widget child, EdgeInsets padding = const EdgeInsets.all(20), double radius = 20}) {
+    return AppCard(
       padding: padding,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(radius),
-      ),
+      radius: radius,
       child: child,
     );
   }
@@ -248,13 +245,9 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
     final indicatorColor = reached ? Colors.green : AppColors.primary;
     final label = reached ? '✅ Goal reached!' : 'Keep going! ${state.dailyGoalXP - state.xpEarnedToday} XP to go';
 
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(16),
-      ),
+    return AppCard(
       padding: const EdgeInsets.all(16),
+      color: backgroundColor,
       child: Row(
         children: [
           Expanded(
